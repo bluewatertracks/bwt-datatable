@@ -1,0 +1,128 @@
+<!doctype html>
+<html>
+	<head>
+
+		<title>`paper-datatable` playground</title>
+
+		<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+		<script src="../libs/relativeDate.js"></script>
+		<script>
+			window.Polymer = window.Polymer || {};
+			window.Polymer.dom = 'shadow';
+		</script>
+		<link rel="import" href="/bower_components/polymer/polymer.html">
+		<link rel="import" href="/bower_components/paper-card/paper-card.html">
+		<link rel="import" href="/bwt-datatable-card.html">
+		<link rel="import" href="/bwt-datatable.html">
+		<link rel="import" href="/docs/documentation-menu.html">
+
+		<style is="custom-style">
+
+			html{
+				--bwt-datatable-array-item: {
+					min-width: 15px;
+					height: 17px;
+					text-align: center;
+					border-radius: 8px;
+					background: gray;
+					color: white;
+					padding: 0px 1px;
+				};
+			}
+
+			body{
+				background: #f5f5f5;
+			}
+
+			paper-card{
+				padding:20px;
+				margin:20px;
+				display:block;
+			}
+
+		</style>
+
+	</head>
+	<body>
+		<template is="dom-bind" id="app">
+			<demo-menu>
+				<paper-card>
+					<bwt-datatable data="{{data}}" selectable>
+						<bwt-datatable-column header="Dessert (100g serving)" property="title" type="String" tooltip="Some title" sortable>	</bwt-datatable-column>
+						<bwt-datatable-column header="Calories" property="calories" type="Number" tooltip="The total amount of..." sortable>
+							<template>
+								<paper-input value="{{value}}" no-label-float></paper-input>
+							</template>
+						</bwt-datatable-column>
+					</bwt-datatable>
+				</paper-card>
+
+				<paper-card>
+					<bwt-datatable data="{{data}}" selectable multi-selection>
+						<bwt-datatable-column header="Dessert (100g serving)" property="title" type="String" tooltip="Some title" sortable>	</bwt-datatable-column>
+						<bwt-datatable-column header="Calories" property="calories" type="Number" tooltip="The total amount of..." sortable>
+							<template>
+								<paper-input value="{{value}}"></paper-input>
+								<paper-input value="{{item.calories}}"></paper-input>
+								<paper-input value="{{item.complexObj.a}}"></paper-input>
+							</template>
+						</bwt-datatable-column>
+						<bwt-datatable-column header="Object" property="complexObj" type="Object" tooltip="The total amount of..." sortable>
+							<template>
+								<paper-input value="{{value.a}}"></paper-input>
+								<paper-input value="{{item.complexObj.a}}"></paper-input>
+								<paper-input value="{{item.complexObj.b}}"></paper-input>
+							</template>
+						</bwt-datatable-column>
+						<bwt-datatable-column header="Array" property="arr" type="Array" tooltip="The total amount of..." sortable>
+							<template>
+								<template is="dom-repeat" items="{{value}}" as="valueItem">
+									<paper-input value="{{valueItem}}"></paper-input>
+								</template>
+							</template>
+						</bwt-datatable-column>
+					</bwt-datatable>
+				</paper-card>
+
+				<paper-card>
+					<bwt-datatable id="lastDataTable" data="{{data}}" selectable multi-selection on-row-tap="log">
+						<bwt-datatable-column header="Dessert (100g serving)" property="title" type="String" sortable editable></bwt-datatable-column>
+						<bwt-datatable-column header="Yummy" property="yummy" type="Boolean" sortable editable align="center"></bwt-datatable-column>
+						<bwt-datatable-column header="Calories" property="calories" type="Number" sortable editable></bwt-datatable-column>
+						<bwt-datatable-column header="Array" property="arr" type="Array" on-cell-tap="log"></bwt-datatable-column>
+						<bwt-datatable-column header="Complex Array" property="complexArr" type="Array" array-display-prop="title"></bwt-datatable-column>
+						<bwt-datatable-column id="dateTest" header="Created" property="created" type="Date" sortable format-value="{{formatDate}}"></bwt-datatable-column>
+						<bwt-datatable-column id="dateTest" header="Created" property="created" type="Date" sortable></bwt-datatable-column>
+					</bwt-datatable>
+				</paper-card>
+
+				Calories: <span>[[getItem(data.*, 'data.0.calories')]]</span>
+				Array item: <span>[[getItem(data.*, 'data.0.arr.0')]]</span>
+				<paper-button on-tap="deselectAll">Deselect all</paper-button>
+			</demo-menu>
+		</template>
+
+		<script>
+			var app = document.querySelector('#app');
+			//this function is necessary, because since Polymer 1.2 paths with indexes aren't allowed in direct bindings
+			app.getItem = function(watcher, path){
+				return this.get(path);
+			};
+			app.data = [
+				{title: 'Ice cream', yummy: true, calories: 2000, complexObj: {a: 'b', b: 'd'}, arr: [2,3,4], complexArr: [{title:'b'}, {title:'c'}], created: new Date(1447315235838)},
+				{title: 'Dessert', yummy: true, calories: 3000, complexObj: {a: 'bb', b: 'dd'}, arr: [5,6], complexArr: [{title:'b'}, {title:'c'}], created: new Date(1447155235838)},
+				{title: 'Cake', yummy: false, calories: 4000, complexObj: {a: 'cc', b: 'gg'}, arr: [7,8], complexArr: [{title:'b'}, {title:'c'}], created: new Date(1447355135838)}
+			];
+			app.log = function(ev){
+				console.info('event', ev.type, 'on', ev.target, 'with detail', ev.detail);
+			};
+			app.deselectAll = function(){
+				app.$.lastDataTable.deselectAll();
+			};
+
+			/* relativeDate is defined in relativeDate.js */
+			app.formatDate = relativeDate;
+		</script>
+
+	</body>
+</html>
