@@ -14,8 +14,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <title>bwt-datatable tests</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-  <script src="./bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-  <script src="./bower_components/web-component-tester/browser.js"></script>
+  <script src="../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../bower_components/web-component-tester/browser.js"></script>
   <link rel="import" href="../bwt-datatable.html">
 
   <style>
@@ -37,9 +37,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 				<bwt-datatable id="datatable" data="{{data}}" selectable multi-selection>
 					<bwt-datatable-column header="Dessert (100g serving)" property="title" type="String" style="width:99%;" sortable></bwt-datatable-column>
-					<bwt-datatable-column header="Calories" property="calories" type="Number" align="right" sortable tooltip="The total amount of food energy in the given serving size." sorted></bwt-datatable-column>
+					<bwt-datatable-column header="Calories" property="calories" type="Number" align="right" sortable tooltip="The total amount of food energy in the given serving size."></bwt-datatable-column>
 					<bwt-datatable-column header="Fat (g)" property="fat" type="Number" align="right" format-value="[[toFixedOne]]" sortable tooltip="The total amount of fat in the given serving size."></bwt-datatable-column>
-					<bwt-datatable-column header="Carbs (g)" property="carbs" type="Number" align="right" sortable tooltip="The total amount of carbs in the given serving size."></bwt-datatable-column>
+					<bwt-datatable-column header="[[carbsHeader]]" property="carbs" type="Number" align="right" sortable tooltip="The total amount of carbs in the given serving size."></bwt-datatable-column>
 					<bwt-datatable-column header="Protein (g)" property="protein" type="Number" align="right" format-value="[[toFixedOne]]" sortable tooltip="The total amount of protein in the given serving size."></bwt-datatable-column>
 					<bwt-datatable-column header="Sodium (mg)" property="sodium" type="Number" align="right" sortable tooltip="The amount of sodium as a percentage of the recommended daily amount."></bwt-datatable-column>
 					<bwt-datatable-column header="Calcium (%)" property="calcium" type="Number" align="right" format-value="[[toPercentage]]" sortable tooltip="The amount of calcium as a percentage of the recommended daily amount."></bwt-datatable-column>
@@ -64,16 +64,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 			app.toPercentage = function(value){
 				return Math.round(value * 10000)/100 + '%';
 			};
+      app.carbsHeader = 'Carbs';
+
       suite('<bwt-datatable>', function() {
-        /*var f, img;
-        setup(function () {
-          f = fixture('basic');
-          img = f.$$('iron-image');
-        });*/
 				test('select two rows', function(done){
-					var datatable = app.$.datatable;
+          var datatable = app.$.datatable;
 					datatable.select(app.data[0]);
 					datatable.select(app.data[2]);
+          assert.strictEqual(datatable.selectedItems.length, 2);
 					assert.isTrue(datatable.selectedKeys[0] == '#0');
 					assert.isTrue(datatable.selectedKeys[1] == '#2');
 					done();
@@ -81,6 +79,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 				test('deselect all', function(done){
 					var datatable = app.$.datatable;
 					datatable.deselectAll();
+          assert.strictEqual(datatable.selectedItems.length, 0);
 					assert.isTrue(datatable.selectedKeys.length === 0);
 					done();
 				});
@@ -92,58 +91,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 					assert.isTrue(datatable.selectedKeys.length === 0);
 					done();
 				});
-      //   test('aria-label set on card', function() {
-      //     assert.strictEqual(f.getAttribute('aria-label'), f.heading);
-      //   });
-      //   test('aria-label can be updated', function() {
-      //     assert.strictEqual(f.getAttribute('aria-label'), f.heading);
-      //     f.heading = 'batman';
-      //     assert.strictEqual(f.getAttribute('aria-label'), 'batman');
-      //   });
-    
-      //   test('aria-hidden is set on image', function() {
-      //     assert.strictEqual(img.getAttribute('aria-hidden'), 'true');
-      // });
-      //   test('aria-hidden is removed when image is set', function() {
-      //     f.image = 'some-image-url';
-      //     assert.strictEqual(img.getAttribute('aria-hidden'), 'false');
-      //   });
-      // });
-      // suite('header image', function() {
-      //   var f, img;
-      //   setup(function () {
-      //     f = fixture('basic');
-      //     img = f.$$('iron-image');
-      //   });
-      //   test('is iron-image', function(){
-      //     expect(img).to.be.ok;
-      //   });
-      //   test('width properly setup', function() {
-      //     assert.strictEqual(img.offsetWidth, 0);
-      //     f.image = 'some-img-url';
-      //     assert.strictEqual(img.src, f.image);
-      //     assert.strictEqual(img.offsetWidth, f.offsetWidth);
-      //   });
-      //   test('preload properly setup', function() {
-      //     assert.strictEqual(img.preload, f.preloadImage);
-      //     f.preloadImage = !f.preloadImage;
-      //     assert.strictEqual(img.preload, f.preloadImage);
-      //   });
-      //   test('fade properly setup', function() {
-      //     assert.strictEqual(img.fade, f.fadeImage);
-      //     f.fadeImage = !f.fadeImage;
-      //     assert.strictEqual(img.fade, f.fadeImage);
-      //   });
-      //   test('placeholder properly setup', function() {
-      //     assert.strictEqual(img.placeholder, null);
-      //     f.placeholderImage = 'some-place-holder';
-      //     assert.strictEqual(img.placeholder, f.placeholderImage);
-      //   });
-      //   test('alt properly setup', function() {
-      //     assert.strictEqual(img.alt, null);
-      //     f.alt = 'some-text';
-      //     assert.strictEqual(img.alt, f.alt);
-      //   });
+        test('binding to column header', function(done) {
+          var datatable = app.$.datatable;
+          var columns = Polymer.dom(document).querySelectorAll('bwt-datatable-column');
+          assert.strictEqual(columns[3].header, app.carbsHeader);
+          app.carbsHeader = 'Organic';
+          assert.strictEqual(columns[3].header, app.carbsHeader);
+          done();
+        });
       });
   </script>
 
