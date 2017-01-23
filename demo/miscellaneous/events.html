@@ -19,28 +19,30 @@
 	<body>
 
 			<template is="dom-bind" id="app">
-				<style is="custom-style">
-					h2 {
-						@apply(--paper-font-title);
-						font-size: 18px !important;
-						font-variant: small-caps;
-					}
-					pre{
-						/* display:block;word-wrap: break-word;background:rgb(245,245,245);padding:5px; */
-						overflow: auto;
-						margin: 10px -15px;
-						padding: 15px;
-						background: rgb(250,250,250);
-						border-top: 1px solid rgb(230, 230, 230);
-						border-bottom: 1px solid rgb(230, 230, 230);
-					}
-					.noEvents{
-						margin: 10px;
-						text-align: center;
-						font-variant: small-caps;
-						color: rgba(0,0,0,.8);
-					}
-				</style>
+				<custom-style>
+					<style is="custom-style">
+						h2 {
+							@apply --paper-font-title;
+							font-size: 18px !important;
+							font-variant: small-caps;
+						}
+						pre{
+							/* display:block;word-wrap: break-word;background:rgb(245,245,245);padding:5px; */
+							overflow: auto;
+							margin: 10px -15px;
+							padding: 15px;
+							background: rgb(250,250,250);
+							border-top: 1px solid rgb(230, 230, 230);
+							border-bottom: 1px solid rgb(230, 230, 230);
+						}
+						.noEvents{
+							margin: 10px;
+							text-align: center;
+							font-variant: small-caps;
+							color: rgba(0,0,0,.8);
+						}
+					</style>
+				</custom-style>
 				<paper-drawer-panel right-drawer>
 					<paper-header-panel drawer style="overflow-y:auto;overflow-x:hidden;" mode="waterfall">
 						<paper-toolbar><h2 style="margin-left:0px;" class="title">Event log</h2></paper-toolbar>
@@ -61,9 +63,9 @@
 					<demo-menu main>
 						<div style="padding:30px;">
 							<bwt-datatable-card id="card" header="Dangerously delicious" number-of-items="49">
-								<div toolbar-main>
+								<div slot="toolbar-main">
 								</div>
-								<div toolbar-select>
+								<div slot="toolbar-select">
 									<paper-icon-button icon="delete" on-tap="delete"></paper-icon-button>
 								</div>
 								<bwt-datatable id="datatable" data="{{data}}" selectable multi-selection>

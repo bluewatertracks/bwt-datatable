@@ -15,99 +15,97 @@
 		<link rel="import" href="/bwt-datatable.html">
 		<link rel="import" href="/docs/documentation-menu.html">
 
-		<style is="custom-style">
-
-			html {
-				--dark-primary-color:       #D32F2F;
-				--default-primary-color:    #F44336;
-				--light-primary-color:      #FFCDD2;
-				--accent-color:             #FF9800;
-				--primary-background-color: #FFCDD2;
-				--primary-text-color:       #212121;
-				--secondary-text-color:     #727272;
-				--disabled-text-color:      #BDBDBD;
-				--divider-color:            rgba(0,0,0,.3);
-
-				--paper-progress-active-color: #EC407A;
-				--paper-progress-container-color: var(--paper-grey-800);
-
-				--paper-input-container-input-color: rgba(255, 255, 255, var(--dark-primary-opacity));
-				--paper-input-container-focus-color: #EC407A;
-			}
-
-			demo-menu{
-				--demo-menu-background: #303030;
-			}
-
-			bwt-datatable-card{
-				max-width: 1000px;
-				margin: 30px auto;
-				--bwt-datatable-selection-toolbar-color: var(--paper-grey-900);
-				--bwt-datatable-card: {
-					background: var(--paper-grey-800);
-				};
-				color: rgba(255, 255, 255, var(--dark-primary-opacity));
-				--paper-input-container-input-color: rgba(255, 255, 255, var(--dark-primary-opacity));
-				--bwt-datatable-navigation-bar-text-color: rgba(255, 255, 255, var(--dark-primary-opacity));
-
-				--bwt-datatable-top-toolbar-text-color: rgba(255, 255, 255, var(--dark-primary-opacity));
-
-			}
-
-			bwt-datatable{
-				--bwt-datatable-row-hover-color: inherit;
-				--bwt-datatable-row-selection-color: inherit;
-
-				--bwt-datatable-column-header: {
-					color: inherit;
-					padding-left: 5px;
-					padding-right: 5px;
-					min-width: 73px;
-					border-bottom: 0px;
-				};
-				--bwt-datatable-column-header-sorted: {
-					color: inherit;
-				};
-				--bwt-datatable-column-header-sort-icon-hover: {
-					color: rgba(255, 255, 255, .5)
-				};
-				--bwt-datatable-column-header-last: {
-					padding-right: 24px;
-				};
-				--bwt-datatable-cell-last: {
-					padding-right: 24px;
-				};
-
-				--bwt-datatable-header-checkbox-border-color: rgba(255, 255, 255, var(--dark-primary-opacity));
-
-				--bwt-datatable-cell: {
-					color: #212121;
-					padding-left: 5px;
-					padding-right: 5px;
-				};
-
-				--bwt-datatable-edit-dialog-color: #303030;
-
-				--bwt-datatable-edit-dialog: {
-					border: 1px solid rgba(255, 255, 255, .2);
-					box-sizing: border-box;
-				}
-
-			}
-
-
-		</style>
 
 	</head>
 	<body>
 		<demo-menu>
 			<template is="dom-bind" id="app">
+				<custom-style>
+					<style is="custom-style">
+						html {
+							--dark-primary-color:       #D32F2F;
+							--default-primary-color:    #F44336;
+							--light-primary-color:      #FFCDD2;
+							--accent-color:             #FF9800;
+							--primary-background-color: #FFCDD2;
+							--primary-text-color:       #212121;
+							--secondary-text-color:     #727272;
+							--disabled-text-color:      #BDBDBD;
+							--divider-color:            rgba(0,0,0,.3);
 
+							--paper-progress-active-color: #EC407A;
+							--paper-progress-container-color: var(--paper-grey-800);
+
+							--paper-input-container-input-color: rgba(255, 255, 255, var(--dark-primary-opacity));
+							--paper-input-container-focus-color: #EC407A;
+						}
+
+						demo-menu{
+							--demo-menu-background: #303030;
+						}
+
+						bwt-datatable-card{
+							max-width: 1000px;
+							margin: 30px auto;
+							--bwt-datatable-selection-toolbar-color: var(--paper-grey-900);
+							--bwt-datatable-card: {
+								background: var(--paper-grey-800);
+							};
+							color: rgba(255, 255, 255, var(--dark-primary-opacity));
+							--paper-input-container-input-color: rgba(255, 255, 255, var(--dark-primary-opacity));
+							--bwt-datatable-navigation-bar-text-color: rgba(255, 255, 255, var(--dark-primary-opacity));
+
+							--bwt-datatable-top-toolbar-text-color: rgba(255, 255, 255, var(--dark-primary-opacity));
+
+						}
+
+						bwt-datatable{
+							--bwt-datatable-row-hover-color: inherit;
+							--bwt-datatable-row-selection-color: inherit;
+
+							--bwt-datatable-column-header: {
+								color: inherit;
+								padding-left: 5px;
+								padding-right: 5px;
+								min-width: 73px;
+								border-bottom: 0px;
+							};
+							--bwt-datatable-column-header-sorted: {
+								color: inherit;
+							};
+							--bwt-datatable-column-header-sort-icon-hover: {
+								color: rgba(255, 255, 255, .5)
+							};
+							--bwt-datatable-column-header-last: {
+								padding-right: 24px;
+							};
+							--bwt-datatable-cell-last: {
+								padding-right: 24px;
+							};
+
+							--bwt-datatable-header-checkbox-border-color: rgba(255, 255, 255, var(--dark-primary-opacity));
+
+							--bwt-datatable-cell: {
+								color: #212121;
+								padding-left: 5px;
+								padding-right: 5px;
+							};
+
+							--bwt-datatable-edit-dialog-color: #303030;
+
+							--bwt-datatable-edit-dialog: {
+								border: 1px solid rgba(255, 255, 255, .2);
+								box-sizing: border-box;
+							}
+
+						}
+					</style>
+				</custom-style>
 				<bwt-datatable-card header="Dangerously delicious">
-					<div toolbar-main>
+					<div slot="toolbar-main">
 						<paper-icon-button icon="more-vert"></paper-icon-button>
 					</div>
-					<div toolbar-select>
+					<div slot="toolbar-select">
 						<paper-icon-button icon="delete"></paper-icon-button>
 					</div>
 					<bwt-datatable data="{{data}}" selectable multi-selection custom-row-style="{{generateRowCss}}" progress="{{progressBarVisble}}" sort-property="calories" sort-direction="asc">

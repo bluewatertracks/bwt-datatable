@@ -12,18 +12,18 @@
 	<body>
 
 		<template is="dom-bind" id="app">
+			<style>
+				:host {
+					background: #f5f5f5;
+				}
+			</style>
 			<demo-menu>
-				<style is="custom-style">
-					body{
-						background: #f5f5f5;
-					}
-				</style>
 
 				<bwt-datatable-card id="datatableCard" header="Document library" page-size="10" data-source="{{data}}" id-property="i" selected-ids="{{selectedIds}}">
-					<div toolbar-main>
+					<div slot="toolbar-main">
 						<paper-icon-button icon="add" on-tap="addNew"></paper-icon-button>
 					</div>
-					<div toolbar-select>
+					<div slot="toolbar-select">
 						<paper-icon-button icon="delete"></paper-icon-button>
 					</div>
 					<bwt-datatable selectable multi-selection>

@@ -23,13 +23,12 @@
 	<body>
 
 		<template is="dom-bind" id="app">
+			<style>
+				:host {
+					background: #f5f5f5;
+				}
+			</style>
 			<demo-menu>
-				<style is="custom-style">
-					body{
-						background: #f5f5f5;
-					}
-				</style>
-
 				<paper-dialog id="editDialog" with-backdrop style="min-width: 300px; max-width:500px; min-height:300px;">
 					<!--<template is="dom-repeat" items="[[selectedItems]]" filter="[[onlyFirst]]">-->
 					<template is="dom-repeat" items="[[selectedItems]]">
@@ -57,7 +56,7 @@
 				</paper-dialog>
 
 				<bwt-datatable-card id="datatableCard" header="Users" page-size="10" data-source="{{data}}" id-property="id" selected-ids="{{selectedIds}}">
-					<div toolbar-main>
+					<div slot="toolbar-main">
 						<paper-input value="{{searchTerm}}" on-input="retrieveResults" label="Search..." style="display:inline-block" no-label-float>
 							<div prefix>
 								<iron-icon icon="search"></iron-icon>
@@ -65,10 +64,10 @@
 						</paper-input>
 						<paper-icon-button icon="cached" on-tap="retrieveResults"></paper-icon-button>
 					</div>
-					<div toolbar-select>
+					<div slot="toolbar-select">
 						<paper-icon-button icon="delete" on-tap="deleteSelected"></paper-icon-button>
 					</div>
-					<div toolbar-select-single>
+					<div slot="toolbar-select-single">
 						<paper-icon-button icon="datatable:editable" on-tap="editDialogForSelected"></paper-icon-button>
 					</div>
 					<bwt-datatable id="datatable" selectable multi-selection selected-items="{{selectedItems}}" on-row-tap="rowTapped">
