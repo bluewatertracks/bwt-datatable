@@ -14,114 +14,116 @@
 <script src="weakCache.js"></script>
 <dom-module id="bwt-datatable-card">
 	<template>
-		<style>
-			:host {
-				display: block;
-				@apply(--paper-font-common-base);
-			}
-			paper-material{
-				border-radius: 2px;
-				background: white;
-				@apply(--bwt-datatable-card);
-			}
-			#selectionToolbar{
-				display: none;
-				background: var(--bwt-datatable-selection-toolbar-color, --paper-pink-50);
-				@apply(--bwt-datatable-selection-toolbar);
-				padding:0px 12px 0px 24px;
-			}
-			#selectionToolbar .selectionHeader, #selectionToolbar .toolbar ::content paper-icon-button{
-				color: var(--bwt-datatable-selection-toolbar-text-color, --accent-color);
-			}
-			#selectionToolbar[data-visible]{
-				display: flex;
-			}
-			#selectionToolbar .toolbar{
-				display: none;
-			}
-			#selectionToolbar .toolbar[data-visible]{
-				display: flex;
-			}
-			#toolbar-main{
-				padding-right: 12px;
-			}
-			#topBlock{
-				height:64px;
-				padding:0px 6px 0px 24px;
-				position:relative;
-				@apply(--bwt-datatable-top-toolbar);
-			}
-			#topBlock .header{
-				font-size:20px;
-				@apply(--paper-font-common-base);
-				color: var(--bwt-datatable-top-toolbar-text-color);
-			}
-			#selectionToolbar > ::content paper-icon-button, .toolbar > ::content paper-icon-button,
-			#selectionToolbar > ::content paper-icon, .toolbar > ::content paper-icon,
-			#selectionToolbar > ::content iron-icon, .toolbar > ::content iron-icon{
-				color: var(--bwt-datatable-selection-toolbar-icon-color, rgba(0,0,0,.54));
-			}
-			#toolbar-main ::content paper-icon-button, #toolbar-main ::content paper-icon, #toolbar-main ::content iron-icon{
-				color: var(--bwt-datatable-top-toolbar-icon-color);
-			}
-			#topBlock .selectionHeader{
-				font-size:16px;
-				@apply(--paper-font-common-base);
-			}
-			#bottomBlock{
-				height:56px;
-				padding:0px 6px;
-				border-top: 1px solid var(--bwt-datatable-divider-color, --divider-color);
-				color: var(--bwt-datatable-navigation-bar-text-color, rgba(0,0,0,.54));
-				align-items: center;
-				font-size: 12px;
-				text-align: center;
-				font-weight: 500;
-				@apply(--bwt-datatable-navigation-bar);
-			}
-			#bottomBlock paper-dropdown-menu{
-				vertical-align: middle;
-				margin-right: 18px;
-				--paper-input-container-underline: {
+		<custom-style>
+			<style is="custom-style">
+				:host {
+					display: block;
+					@apply --paper-font-common-base;
+				}
+				paper-material{
+					border-radius: 2px;
+					background: white;
+					@apply --bwt-datatable-card;
+				}
+				#selectionToolbar{
 					display: none;
-				};
-				--paper-input-container-input: {
-					text-align: right;
+					background: var(--bwt-datatable-selection-toolbar-color, var(--paper-pink-50));
+					@apply --bwt-datatable-selection-toolbar;
+					padding:0px 12px 0px 24px;
+				}
+				#selectionToolbar .selectionHeader, #selectionToolbar .toolbar ::content paper-icon-button{
+					color: var(--bwt-datatable-selection-toolbar-text-color, var(--accent-color));
+				}
+				#selectionToolbar[data-visible]{
+					display: flex;
+				}
+				#selectionToolbar .toolbar{
+					display: none;
+				}
+				#selectionToolbar .toolbar[data-visible]{
+					display: flex;
+				}
+				#toolbar-main{
+					padding-right: 12px;
+				}
+				#topBlock{
+					height:64px;
+					padding:0px 6px 0px 24px;
+					position:relative;
+					@apply --bwt-datatable-top-toolbar;
+				}
+				#topBlock .header{
+					font-size:20px;
+					@apply --paper-font-common-base;
+					color: var(--bwt-datatable-top-toolbar-text-color);
+				}
+				#selectionToolbar > ::content paper-icon-button, .toolbar > ::content paper-icon-button,
+				#selectionToolbar > ::content paper-icon, .toolbar > ::content paper-icon,
+				#selectionToolbar > ::content iron-icon, .toolbar > ::content iron-icon{
+					color: var(--bwt-datatable-selection-toolbar-icon-color, rgba(0,0,0,.54));
+				}
+				#toolbar-main ::content paper-icon-button, #toolbar-main ::content paper-icon, #toolbar-main ::content iron-icon{
+					color: var(--bwt-datatable-top-toolbar-icon-color);
+				}
+				#topBlock .selectionHeader{
+					font-size:16px;
+					@apply --paper-font-common-base;
+				}
+				#bottomBlock{
+					height:56px;
+					padding:0px 6px;
+					border-top: 1px solid var(--bwt-datatable-divider-color, var(--divider-color));
+					color: var(--bwt-datatable-navigation-bar-text-color, rgba(0,0,0,.54));
+					align-items: center;
 					font-size: 12px;
+					text-align: center;
 					font-weight: 500;
-					color: var(--bwt-datatable-navigation-bar-text-color, rgba(0,0,0,.54));
-				};
-				--paper-dropdown-menu-icon: {
-					color: var(--bwt-datatable-navigation-bar-text-color, rgba(0,0,0,.54));
-				};
-				
-			}
-		</style>
+					@apply --bwt-datatable-navigation-bar;
+				}
+				#bottomBlock paper-dropdown-menu{
+					vertical-align: middle;
+					margin-right: 18px;
+					--paper-input-container-underline: {
+						display: none;
+					};
+					--paper-input-container-input: {
+						text-align: right;
+						font-size: 12px;
+						font-weight: 500;
+						color: var(--bwt-datatable-navigation-bar-text-color, rgba(0,0,0,.54));
+					};
+					--paper-dropdown-menu-icon: {
+						color: var(--bwt-datatable-navigation-bar-text-color, rgba(0,0,0,.54));
+					};
+					
+				}
+			</style>
+		</custom-style>
 		<paper-material elevation="1">
 			<div class="horizontal center layout" id="topBlock">
 				<div class="flex header">
 					<span>[[header]]</span>
 				</div>
 				<div id="toolbar-main" class="toolbar">
-					<content select="*[toolbar-main]"></content>
+					<slot name="toolbar-main"></slot>
 				</div>
 				<div id="selectionToolbar" class="horizontal center layout fit" data-visible$="[[_selectedToolbarVisible]]">
 					<div class="flex selectionHeader">
 						<span>[[_numberselectedIds]]</span> item selected
 					</div>
 					<div class="toolbar" data-visible$="[[_singleSelectToolbarVisible]]">
-						<content select="*[toolbar-select-single]"></content>
+						<slot name="toolbar-select-single"></slot>
 					</div>
 					<div class="toolbar" data-visible$="[[_multiSelectToolbarVisible]]">
-						<content select="*[toolbar-select-multi]"></content>
+						<slot name="toolbar-select-multi"></slot>
 					</div>
 					<div class="toolbar" data-visible>
-						<content select="*[toolbar-select]"></content>
+						<slot name="toolbar-select"></slot>						
 					</div>
 				</div>
 			</div>
 			<div>
-				<content select="bwt-datatable"></content>
+				<slot></slot>						
 			</div>
 			<div class="horizontal center layout" id="bottomBlock">
 				<div class="flex"></div>
@@ -152,9 +154,9 @@
 			 A [material design implementation of the tables within cards spec](https://www.google.com/design/spec/components/data-tables.html#data-tables-tables-within-cards).
 
 
-			 @element paper-datatable-card
+			 @element bwt-datatable-card
 			 @demo demo/users-card.html Polished demo
-			 @demo demo/paper-datatable-card.html Complex demo
+			 @demo demo/bwt-datatable-card.html Complex demo
 			 */
 
 			Polymer({

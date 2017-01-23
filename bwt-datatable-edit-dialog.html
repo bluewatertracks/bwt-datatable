@@ -5,32 +5,34 @@
 <link rel="import" href="./bower_components/iron-resizable-behavior/iron-resizable-behavior.html">
 <dom-module id="bwt-datatable-edit-dialog">
 	<template>
-		<style>
-			:host{
-				position: absolute;
-				z-index: 10;
-				display: none;
-			}
-			:host([visible]){
-				display: block;
-			}
-			paper-material {
-				position:absolute;
-				left:0px;
-				top:0px;
-				right:0px;
-				min-width: 100px;
-				display: inline-block;
-				padding: 4px 24px;
-				background: var(--bwt-datatable-edit-dialog-color, --paper-grey-50);
-				border-radius: 2px;
-				box-sizing: border-box;
-				@apply(--bwt-datatable-edit-dialog);
-			}
-		</style>
+		<custom-style>
+			<style is="custom-style">
+				:host{
+					position: absolute;
+					z-index: 10;
+					display: none;
+				}
+				:host([visible]){
+					display: block;
+				}
+				paper-material {
+					position:absolute;
+					left:0px;
+					top:0px;
+					right:0px;
+					min-width: 100px;
+					display: inline-block;
+					padding: 4px 24px;
+					background: var(--bwt-datatable-edit-dialog-color, var(--paper-grey-50));
+					border-radius: 2px;
+					box-sizing: border-box;
+					@apply --bwt-datatable-edit-dialog;
+				}
+			</style>
+		</custom-style>
 		<paper-material id="material" elevation="1">
 			<form is="iron-form" id="form" on-iron-form-presubmit="dismiss">
-				<content select="*"></content>
+				<slot></slot>						
 			</form>
 		</paper-material>
 	</template>
@@ -40,7 +42,7 @@
 		 * This shouldn't be showing up here, but I can't see to get this documentation system to ignore this file,
 		 * so just ignore it.
 		 *
-		 * This element is used internally to render the dialog boxes when `<paper-datatable-column>` is used with the
+		 * This element is used internally to render the dialog boxes when `<bwt-datatable-column>` is used with the
 		 * `[dialog]` attribute.
 		 */
 
