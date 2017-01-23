@@ -15,27 +15,14 @@
 		<link rel="import" href="/bwt-datatable.html">
 		<link rel="import" href="/docs/documentation-menu.html">
 
-		<style is="custom-style">
-
-			body{
-				overflow: hidden;
-			}
-
-			paper-card{
-				display: block;
-				margin-bottom: 20px;
-			}
-
-		</style>
-
 	</head>
 	<body>
 
 		<template is="dom-bind" id="app">
-
-			<demo-menu>
+			<custom-style>
 				<style is="custom-style">
 					paper-card {
+						margin-bottom: 20px;
 						--paper-card-header-text: {
 							font-family: 'Roboto', 'Noto', sans-serif;
 							font-weight: normal;
@@ -43,6 +30,8 @@
 						}
 					}
 				</style>
+			</custom-style>
+			<demo-menu>
 
 				<paper-card heading="'overflow' resize behavior">
 					<bwt-datatable data="{{data}}" selectable multi-selection>

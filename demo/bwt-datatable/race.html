@@ -15,23 +15,11 @@
 		<link rel="import" href="/bwt-datatable.html">
 		<link rel="import" href="/docs/documentation-menu.html">
 
-		<style is="custom-style">
-			body{
-				overflow:hidden;
-			}
-
-			paper-card{
-				display:block;
-			}
-
-		</style>
-
 	</head>
 	<body>
 
-		<template is="dom-bind" id="app">
-
-			<demo-menu>
+		<template is="dom-bind" id="app">4
+			<custom-style>
 				<style is="custom-style">
 					paper-card {
 						--paper-card-header-text: {
@@ -41,6 +29,8 @@
 						}
 					}
 				</style>
+			</custom-style>
+			<demo-menu>
 
 				<paper-card heading="Race rankings">
 					<bwt-datatable data="{{data}}" selectable multi-selection>

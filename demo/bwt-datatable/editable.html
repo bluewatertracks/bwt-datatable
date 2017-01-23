@@ -14,33 +14,32 @@
 		<link rel="import" href="/bwt-datatable-card.html">
 		<link rel="import" href="/bwt-datatable.html">
 		<link rel="import" href="/docs/documentation-menu.html">
-		<custom-style>
-			<style is="custom-style">
-				body{
-					overflow:hidden;
-				}
-
-				paper-card{
-					margin-bottom:20px;
-					display:block;
-					--paper-card-header-text: {
-						font-family: 'Roboto', 'Noto', sans-serif;
-						font-weight: normal;
-						font-size: 20px;
-					}
-					--paper-card-header: {
-						padding-left: 14px;
-					}
-				}
-				
-			</style>
-		</custom-style>
 
 	</head>
 	<body>
 
 		<template is="dom-bind" id="app">
+			<custom-style>
+				<style is="custom-style">
+					:host {
+						overflow:hidden;
+					}
 
+					paper-card {
+						margin-bottom:20px;
+						display:block;
+						--paper-card-header-text: {
+							font-family: 'Roboto', 'Noto', sans-serif;
+							font-weight: normal;
+							font-size: 20px;
+						}
+						--paper-card-header: {
+							padding-left: 14px;
+						}
+					}
+					
+				</style>
+			</custom-style>
 			<demo-menu>
 				<paper-card heading="And one with `[editable]` and `[dialog]` added to the first column.">
 					<bwt-datatable data="{{data}}" id="datatableElement" selectable multi-selection>

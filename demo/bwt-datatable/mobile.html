@@ -15,32 +15,31 @@
 		<link rel="import" href="/bwt-datatable.html">
 		<link rel="import" href="/docs/documentation-menu.html">
 
-		<style is="custom-style">
-
-			body{
-				overflow:hidden;
-			}
-
-			paper-card{
-				margin-bottom:20px;
-				display:block;
-				--paper-card-header-text: {
-					font-family: 'Roboto', 'Noto', sans-serif;
-					font-weight: normal;
-					font-size: 20px;
-				}
-				--paper-card-header: {
-					padding-left: 14px;
-				}
-			}
-			
-		</style>
 
 	</head>
 	<body>
 
 		<template is="dom-bind" id="app">
+			<custom-style>
+				<style is="custom-style">
+					:host {
+						overflow:hidden;
+					}
 
+					paper-card{
+						margin-bottom:20px;
+						display:block;
+						--paper-card-header-text: {
+							font-family: 'Roboto', 'Noto', sans-serif;
+							font-weight: normal;
+							font-size: 20px;
+						}
+						--paper-card-header: {
+							padding-left: 14px;
+						}
+					}
+				</style>
+			</custom-style>
 			<demo-menu>
 				<paper-card heading="Datatable that support mobile devices with screen size less than 768px (just change screen width)">
 					<bwt-datatable data="{{data}}" selectable multi-selection response-width='767px' resize-behavior="fixed">

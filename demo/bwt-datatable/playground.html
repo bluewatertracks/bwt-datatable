@@ -16,35 +16,30 @@
 		<link rel="import" href="/bwt-datatable.html">
 		<link rel="import" href="/docs/documentation-menu.html">
 
-		<style is="custom-style">
-
-			html{
-				--bwt-datatable-array-item: {
-					min-width: 15px;
-					height: 17px;
-					text-align: center;
-					border-radius: 8px;
-					background: gray;
-					color: white;
-					padding: 0px 1px;
-				};
-			}
-
-			body{
-				background: #f5f5f5;
-			}
-
-			paper-card{
-				padding:20px;
-				margin:20px;
-				display:block;
-			}
-
-		</style>
-
 	</head>
 	<body>
 		<template is="dom-bind" id="app">
+			<custom-style>
+				<style is="custom-style">
+					:host {
+						--bwt-datatable-array-item: {
+							min-width: 15px;
+							height: 17px;
+							text-align: center;
+							border-radius: 8px;
+							background: gray;
+							color: white;
+							padding: 0px 1px;
+						};
+					}
+
+					paper-card{
+						padding:20px;
+						margin:20px;
+						display:block;
+					}
+				</style>
+			</custom-style>
 			<demo-menu>
 				<paper-card>
 					<bwt-datatable data="{{data}}" selectable>

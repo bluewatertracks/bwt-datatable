@@ -16,41 +16,34 @@
 		<link rel="import" href="/bwt-datatable.html">
 		<link rel="import" href="/docs/documentation-menu.html">
 
-		<style is="custom-style">
-			body{
-				overflow:hidden;
-			}
-
-			paper-card{
-				display:block;
-				margin-bottom: 20px;
-			}
-
-		</style>
-
 	</head>
 	<body>
 
 		<template is="dom-bind" id="app">
-
-			<demo-menu>
+			<custom-style>
 				<style is="custom-style">
+					:host {
+						overflow: hidden;
+					}
 					paper-card {
+						display: block;
+						margin-bottom: 20px;
 						--paper-card-header-text: {
 							font-family: 'Roboto', 'Noto', sans-serif;
 							font-weight: normal;
 							font-size: 20px;
 						}
 					}
-					#actions paper-button{
-						display:inline-flex;
-						align-items:center;
+					#actions paper-button {
+						display: inline-flex;
+						align-items: center;
 						background: #3F51B5;
 						color:white;
 						margin-bottom: 10px;
 					}
 				</style>
-
+			</custom-style>
+			<demo-menu>
 				<paper-card heading="Just a normal data table">
 					<bwt-datatable data="{{data}}" selectable multi-selection>
 						<bwt-datatable-column id="titleColumn" header="Dessert (100g serving)" property="title" type="String" style="width:99%;" sortable></bwt-datatable-column>
