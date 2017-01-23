@@ -35,9 +35,9 @@ Toolbars
 ===
 Main toolbar
 ---
-The main toolbar is located to the right of the heading and can be filled by specifying an element with `[toolbar-main]`.
+The main toolbar is located to the right of the heading and can be filled by specifying an element with `slot="toolbar-main"`.
 
-	<div toolbar-main>
+	<div slot="toolbar-main">
 	 	<paper-input value="{{searchQuery}}">
 		<paper-icon-button icon="search" on-tap="search"></paper-icon-button>
 	</div>
@@ -45,14 +45,14 @@ The main toolbar is located to the right of the heading and can be filled by spe
 Selection toolbar
 ---
 The selection toolbar is shown when any items are selected and shows the number of selected items. Items in the toolbar
-can be specified by adding an element with `[toolbar-select]`. Additionally it's often required to show different icons
-when a single item is selected from when multiple items are selected. For this there exists `[toolbar-select-single]`
-and `[toolbar-select-multi]`
+can be specified by adding an element with `slot="toolbar-select"`. Additionally it's often required to show different icons
+when a single item is selected from when multiple items are selected. For this there exists `slot="toolbar-select-single"`
+and `slot="toolbar-select-multi"`
 
-	<div toolbar-select-single>
+	<div slot="toolbar-select-single">
 		<paper-icon-button icon="info" on-tap="info"></paper-icon-button>
 	</div>
-	<div toolbar-select>
+	<div slot="toolbar-select">
 		<paper-icon-button icon="delete" on-tap="delete"></paper-icon-button>
 	</div>
 	
