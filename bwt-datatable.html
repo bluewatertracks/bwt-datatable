@@ -11,7 +11,7 @@
 
 <script src="weakCache.js"></script>
 
-<dom-module id="bwt-datatable">
+<dom-module id="paper-datatable">
 	<template>
 		<custom-style>
 			<style is="custom-style">
@@ -41,7 +41,7 @@
 					width:100%;
 				}
 				tr td, tr th{
-					border-bottom: 1px solid var(--bwt-datatable-divider-color, var(--divider-color));
+					border-bottom: 1px solid var(--paper-datatable-divider-color, var(--divider-color));
 					padding: 6px 28px 6px 28px;
 					box-sizing: border-box;
 				}
@@ -70,7 +70,7 @@
 					transition: transform .2s linear, width .2s linear, color .2s linear;
 					color: rgba(0,0,0, .26);
 					width: 0px;
-					@apply --bwt-datatable-column-header-sort-icon-hover;
+					@apply --paper-datatable-column-header-sort-icon-hover;
 				}
 				th[data-sortable]{
 					cursor: pointer;
@@ -81,14 +81,14 @@
 				th[data-sortable][data-sorted], th[data-sortable]:hover{
 					padding-left: 4px;
 					color: rgba(0,0,0, .87);
-					@apply --bwt-datatable-column-header-sorted;
+					@apply --paper-datatable-column-header-sorted;
 				}
 				th[data-sortable][data-sorted] iron-icon, th[data-sortable]:hover iron-icon{
 					width: 24px;
 				}
 				th[data-sortable][data-sorted] iron-icon.sort{
 					color: rgba(0,0,0, .87);
-					@apply --bwt-datatable-column-header-sorted;
+					@apply --paper-datatable-column-header-sorted;
 				}
 				th[data-sortable]:not([data-sorted]) iron-icon{
 					transform: rotate(180deg);
@@ -106,7 +106,7 @@
 					padding-right: 10px;
 				}
 				th.column{
-					@apply --bwt-datatable-column-header;
+					@apply --paper-datatable-column-header;
 				}
 				tr th span{
 					vertical-align: middle;
@@ -114,7 +114,7 @@
 				td.bound-cell{
 					font-size: 13px;
 					color: rgba(0,0,0,.87);
-					@apply --bwt-datatable-cell;
+					@apply --paper-datatable-cell;
 				}
 				td.bound-cell div span{
 					flex: 1;
@@ -127,7 +127,7 @@
 					align-items:center;
 				}
 				td.bound-cell[data-edit-icon] iron-icon.editable{
-					color: var(--bwt-datatable-icon-color, rgba(0,0,0,.54));
+					color: var(--paper-datatable-icon-color, rgba(0,0,0,.54));
 					width: 18px;
 					display: inline-block;
 					padding-left: 7px;
@@ -154,38 +154,38 @@
 					padding-right: 24px;
 				}
 				td:last-of-type{
-					@apply --bwt-datatable-cell-last;
+					@apply --paper-datatable-cell-last;
 				}
 				th:last-of-type{
-					@apply --bwt-datatable-column-header-last;
+					@apply --paper-datatable-column-header-last;
 				}
 				tr[data-selected] td{
-					background: var(--bwt-datatable-row-selection-color, var(--paper-grey-100));
+					background: var(--paper-datatable-row-selection-color, var(--paper-grey-100));
 				}
 				tr:hover td{
-					background: var(--bwt-datatable-row-hover-color, var(--paper-grey-200));
+					background: var(--paper-datatable-row-hover-color, var(--paper-grey-200));
 				}
 				tbody tr:last-of-type td{
 					border-bottom:none;
 				}
 				tbody td .array-item {
 					display: inline-block;
-					@apply --bwt-datatable-array-item;
+					@apply --paper-datatable-array-item;
 				}
 				tbody td .class-1 {
-					@apply --bwt-datatable-class-1;
+					@apply --paper-datatable-class-1;
 				}
 				tbody td .class-2 {
-					@apply --bwt-datatable-class-2;
+					@apply --paper-datatable-class-2;
 				}
 				tbody td .class-3 {
-					@apply --bwt-datatable-class-3;
+					@apply --paper-datatable-class-3;
 				}
 				tbody td .class-4 {
-					@apply --bwt-datatable-class-4;
+					@apply --paper-datatable-class-4;
 				}
 				tbody td .class-5 {
-					@apply --bwt-datatable-class-5;
+					@apply --paper-datatable-class-5;
 				}
 
 				/* progress: */
@@ -208,14 +208,14 @@
 					width: 100%;
 				}
 				paper-checkbox{
-					--paper-checkbox-unchecked-color: var(--bwt-datatable-checkbox-border-color, var(--primary-text-color));
-					--paper-checkbox-checked-color: var(--bwt-datatable-checkbox-color, var(--accent-color));
-					@apply --bwt-datatable-checkbox;
+					--paper-checkbox-unchecked-color: var(--paper-datatable-checkbox-border-color, var(--primary-text-color));
+					--paper-checkbox-checked-color: var(--paper-datatable-checkbox-color, var(--accent-color));
+					@apply --paper-datatable-checkbox;
 				}
 				th paper-checkbox{
-					--paper-checkbox-unchecked-color: var(--bwt-datatable-header-checkbox-border-color, var(--primary-text-color));
-					--paper-checkbox-checked-color: var(--bwt-datatable-header-checkbox-color, var(--accent-color));
-					@apply --bwt-datatable-header-checkbox;
+					--paper-checkbox-unchecked-color: var(--paper-datatable-header-checkbox-border-color, var(--primary-text-color));
+					--paper-checkbox-checked-color: var(--paper-datatable-header-checkbox-color, var(--accent-color));
+					@apply --paper-datatable-header-checkbox;
 				}
 				.partialSelectionContainer{
 					width:18px;
@@ -228,7 +228,7 @@
 				.partialSelection{
 					width:6px;
 					height:2px;
-					background: var(--bwt-datatable-header-checkbox-border-color, rgba(0,0,0,.54));
+					background: var(--paper-datatable-header-checkbox-border-color, rgba(0,0,0,.54));
 					border-radius:1px;
 					transition: transform .1s linear;
 					transform: scale(0) rotate(-45deg);
@@ -286,7 +286,7 @@
 			</style>
 		</custom-style>
 		<iron-media-query query="(max-width: [[responseWidth]])" query-matches="{{mobileView}}"></iron-media-query>
-		<bwt-datatable-edit-dialog id="dialog"></bwt-datatable-edit-dialog>
+		<paper-datatable-edit-dialog id="dialog"></paper-datatable-edit-dialog>
 		<div id="container">
 			<table mobile-view$="[[mobileView]]">
 				<thead >
@@ -378,19 +378,19 @@
 			'use strict';
 			/* jshint eqeqeq : false */
 			/*
-			# Bwt Datatable
+			# paper Datatable
 
 			A [material design implementation of a data table](https://www.google.com/design/spec/components/data-tables.html).
 
-			@element bwt-datatable
+			@element paper-datatable
 			@demo demo/simple.html Simple clear example
-			@demo demo/bwt-datatable.html Complex playground
+			@demo demo/paper-datatable.html Complex playground
 			 */
 
 
 			Polymer({
 
-				is: 'bwt-datatable',
+				is: 'paper-datatable',
 
 				properties: {
 					/**
@@ -573,7 +573,7 @@
 					});
 				},
 				_queryAndSetColumns: function(){
-					var columns = this.queryAllEffectiveChildren('bwt-datatable-column');
+					var columns = this.queryAllEffectiveChildren('paper-datatable-column');
 					var self = this;
 					columns.forEach(function(column, index) {
 						if(!column.beenAttached.state.ready){
@@ -1119,7 +1119,7 @@
 					var padding = 28;
 					var selectable = this.selectable ? 56 : 0;
 					if(this.resizeBehavior == 'dynamic-columns'){
-						var allColumns = this.queryAllEffectiveChildren('bwt-datatable-column');
+						var allColumns = this.queryAllEffectiveChildren('paper-datatable-column');
 
 						if(allColumns.length > 0) {
 							var maxWidth = this.$.container.clientWidth;

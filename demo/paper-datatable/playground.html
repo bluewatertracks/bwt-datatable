@@ -22,7 +22,7 @@
 			<custom-style>
 				<style is="custom-style">
 					:host {
-						--bwt-datatable-array-item: {
+						--paper-datatable-array-item: {
 							min-width: 15px;
 							height: 17px;
 							text-align: center;
@@ -42,53 +42,53 @@
 			</custom-style>
 			<demo-menu>
 				<paper-card>
-					<bwt-datatable data="{{data}}" selectable>
-						<bwt-datatable-column header="Dessert (100g serving)" property="title" type="String" tooltip="Some title" sortable>	</bwt-datatable-column>
-						<bwt-datatable-column header="Calories" property="calories" type="Number" tooltip="The total amount of..." sortable>
+					<paper-datatable data="{{data}}" selectable>
+						<paper-datatable-column header="Dessert (100g serving)" property="title" type="String" tooltip="Some title" sortable>	</paper-datatable-column>
+						<paper-datatable-column header="Calories" property="calories" type="Number" tooltip="The total amount of..." sortable>
 							<template>
 								<paper-input value="{{value}}" no-label-float></paper-input>
 							</template>
-						</bwt-datatable-column>
-					</bwt-datatable>
+						</paper-datatable-column>
+					</paper-datatable>
 				</paper-card>
 
 				<paper-card>
-					<bwt-datatable data="{{data}}" selectable multi-selection>
-						<bwt-datatable-column header="Dessert (100g serving)" property="title" type="String" tooltip="Some title" sortable>	</bwt-datatable-column>
-						<bwt-datatable-column header="Calories" property="calories" type="Number" tooltip="The total amount of..." sortable>
+					<paper-datatable data="{{data}}" selectable multi-selection>
+						<paper-datatable-column header="Dessert (100g serving)" property="title" type="String" tooltip="Some title" sortable>	</paper-datatable-column>
+						<paper-datatable-column header="Calories" property="calories" type="Number" tooltip="The total amount of..." sortable>
 							<template>
 								<paper-input value="{{value}}"></paper-input>
 								<paper-input value="{{item.calories}}"></paper-input>
 								<paper-input value="{{item.complexObj.a}}"></paper-input>
 							</template>
-						</bwt-datatable-column>
-						<bwt-datatable-column header="Object" property="complexObj" type="Object" tooltip="The total amount of..." sortable>
+						</paper-datatable-column>
+						<paper-datatable-column header="Object" property="complexObj" type="Object" tooltip="The total amount of..." sortable>
 							<template>
 								<paper-input value="{{value.a}}"></paper-input>
 								<paper-input value="{{item.complexObj.a}}"></paper-input>
 								<paper-input value="{{item.complexObj.b}}"></paper-input>
 							</template>
-						</bwt-datatable-column>
-						<bwt-datatable-column header="Array" property="arr" type="Array" tooltip="The total amount of..." sortable>
+						</paper-datatable-column>
+						<paper-datatable-column header="Array" property="arr" type="Array" tooltip="The total amount of..." sortable>
 							<template>
 								<template is="dom-repeat" items="{{value}}" as="valueItem">
 									<paper-input value="{{valueItem}}"></paper-input>
 								</template>
 							</template>
-						</bwt-datatable-column>
-					</bwt-datatable>
+						</paper-datatable-column>
+					</paper-datatable>
 				</paper-card>
 
 				<paper-card>
-					<bwt-datatable id="lastDataTable" data="{{data}}" selectable multi-selection on-row-tap="log">
-						<bwt-datatable-column header="Dessert (100g serving)" property="title" type="String" sortable editable></bwt-datatable-column>
-						<bwt-datatable-column header="Yummy" property="yummy" type="Boolean" sortable editable align="center"></bwt-datatable-column>
-						<bwt-datatable-column header="Calories" property="calories" type="Number" sortable editable></bwt-datatable-column>
-						<bwt-datatable-column header="Array" property="arr" type="Array" on-cell-tap="log"></bwt-datatable-column>
-						<bwt-datatable-column header="Complex Array" property="complexArr" type="Array" array-display-prop="title"></bwt-datatable-column>
-						<bwt-datatable-column id="dateTest" header="Created" property="created" type="Date" sortable format-value="{{formatDate}}"></bwt-datatable-column>
-						<bwt-datatable-column id="dateTest" header="Created" property="created" type="Date" sortable></bwt-datatable-column>
-					</bwt-datatable>
+					<paper-datatable id="lastDataTable" data="{{data}}" selectable multi-selection on-row-tap="log">
+						<paper-datatable-column header="Dessert (100g serving)" property="title" type="String" sortable editable></paper-datatable-column>
+						<paper-datatable-column header="Yummy" property="yummy" type="Boolean" sortable editable align="center"></paper-datatable-column>
+						<paper-datatable-column header="Calories" property="calories" type="Number" sortable editable></paper-datatable-column>
+						<paper-datatable-column header="Array" property="arr" type="Array" on-cell-tap="log"></paper-datatable-column>
+						<paper-datatable-column header="Complex Array" property="complexArr" type="Array" array-display-prop="title"></paper-datatable-column>
+						<paper-datatable-column id="dateTest" header="Created" property="created" type="Date" sortable format-value="{{formatDate}}"></paper-datatable-column>
+						<paper-datatable-column id="dateTest" header="Created" property="created" type="Date" sortable></paper-datatable-column>
+					</paper-datatable>
 				</paper-card>
 
 				Calories: <span>[[getItem(data.*, 'data.0.calories')]]</span>

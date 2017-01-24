@@ -33,21 +33,21 @@
 			<demo-menu>
 
 				<paper-card heading="Race rankings">
-					<bwt-datatable data="{{data}}" selectable multi-selection>
-						<bwt-datatable-column header="Contestant" property="name" type="String" sortable></bwt-datatable-column>
+					<paper-datatable data="{{data}}" selectable multi-selection>
+						<paper-datatable-column header="Contestant" property="name" type="String" sortable></paper-datatable-column>
 						<template is="dom-repeat" items="{{legs}}">
-							<bwt-datatable-column header="Leg {{item}} Rank" property="leg-{{item}}" type="Object" sortable sort="{{customSortByRank}}">
+							<paper-datatable-column header="Leg {{item}} Rank" property="leg-{{item}}" type="Object" sortable sort="{{customSortByRank}}">
 								<template>
 									<span>{{value.rank}}</span>
 								</template>
-							</bwt-datatable-column>
-							<bwt-datatable-column header="Leg {{item}} Time" property="leg-{{item}}" type="Object" sortable sort="{{customSortByTime}}">
+							</paper-datatable-column>
+							<paper-datatable-column header="Leg {{item}} Time" property="leg-{{item}}" type="Object" sortable sort="{{customSortByTime}}">
 								<template>
 									<span>{{value.time}}</span>
 								</template>
-							</bwt-datatable-column>
+							</paper-datatable-column>
 						</template>
-					</bwt-datatable>
+					</paper-datatable>
 				</paper-card>
 
 		</template>

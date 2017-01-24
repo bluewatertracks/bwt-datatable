@@ -38,19 +38,19 @@
 			<demo-menu>
 
 				<paper-card heading="Just a normal data table">
-					<bwt-datatable data="{{data}}" selectable multi-selection>
-						<bwt-datatable-column header="String" property="string" type="String" sortable default="Default"></bwt-datatable-column>
-						<bwt-datatable-column header="Integer" property="integer" type="Number" sortable default="1"></bwt-datatable-column>
-						<bwt-datatable-column header="Float" property="float" type="Number" sortable default="1"></bwt-datatable-column>
-						<bwt-datatable-column header="Date time" property="date" type="Date" sortable default="2000-01-01T00:00:00-00:00"></bwt-datatable-column>
-						<bwt-datatable-column header="Object" property="object" type="Object" sortable default='{"integer": 0, "string": "AA"}' sort="{{customObjectSorter}}">
+					<paper-datatable data="{{data}}" selectable multi-selection>
+						<paper-datatable-column header="String" property="string" type="String" sortable default="Default"></paper-datatable-column>
+						<paper-datatable-column header="Integer" property="integer" type="Number" sortable default="1"></paper-datatable-column>
+						<paper-datatable-column header="Float" property="float" type="Number" sortable default="1"></paper-datatable-column>
+						<paper-datatable-column header="Date time" property="date" type="Date" sortable default="2000-01-01T00:00:00-00:00"></paper-datatable-column>
+						<paper-datatable-column header="Object" property="object" type="Object" sortable default='{"integer": 0, "string": "AA"}' sort="{{customObjectSorter}}">
 							<template>
 								<span>[[value.integer]]</span>
 								=
 								<span>[[value.string]]</span>
 							</template>
-						</bwt-datatable-column>
-					</bwt-datatable>
+						</paper-datatable-column>
+					</paper-datatable>
 				</paper-card>
 
 		</template>

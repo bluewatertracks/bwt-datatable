@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 	<head>
-		<title>`bwt-datatable-card` playground</title>
+		<title>`paper-datatable-card` playground</title>
 		<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 		<link rel="import" href="/bower_components/polymer/polymer.html">
 		<link rel="import" href="/bwt-datatable-card.html">
@@ -19,34 +19,34 @@
 			</style>
 			<demo-menu>
 
-				<bwt-datatable-card id="datatableCard" header="Document library" page-size="10" data-source="{{data}}" id-property="i" selected-ids="{{selectedIds}}">
+				<paper-datatable-card id="datatableCard" header="Document library" page-size="10" data-source="{{data}}" id-property="i" selected-ids="{{selectedIds}}">
 					<div slot="toolbar-main">
 						<paper-icon-button icon="add" on-tap="addNew"></paper-icon-button>
 					</div>
 					<div slot="toolbar-select">
 						<paper-icon-button icon="delete"></paper-icon-button>
 					</div>
-					<bwt-datatable selectable multi-selection>
-						<bwt-datatable-column header="ID" property="i" type="String" tooltip="Some title" sortable align="center" style="min-width: 40px" sorted></bwt-datatable-column>
-						<bwt-datatable-column header="Author" property="author" tooltip="The total amount of..." style="min-width: 500px" default='{"first": "", "last": ""}' editable>
+					<paper-datatable selectable multi-selection>
+						<paper-datatable-column header="ID" property="i" type="String" tooltip="Some title" sortable align="center" style="min-width: 40px" sorted></paper-datatable-column>
+						<paper-datatable-column header="Author" property="author" tooltip="The total amount of..." style="min-width: 500px" default='{"first": "", "last": ""}' editable>
 							<template>
 								<paper-input value="{{value.first}}" no-label-float style="display:inline-block;width:49%;"></paper-input>
 								<paper-input value="{{value.last}}" no-label-float style="display:inline-block;width:49%;"></paper-input>
 							</template>
-						</bwt-datatable-column>
-						<bwt-datatable-column header="Document title" property="title" type="String" tooltip="Some title" sortable style="width: 99%"></bwt-datatable-column>
-						<bwt-datatable-column header="Rating" property="rating" type="Number" tooltip="The total amount of..." sortable style="min-width: 200px" editable>
+						</paper-datatable-column>
+						<paper-datatable-column header="Document title" property="title" type="String" tooltip="Some title" sortable style="width: 99%"></paper-datatable-column>
+						<paper-datatable-column header="Rating" property="rating" type="Number" tooltip="The total amount of..." sortable style="min-width: 200px" editable>
 							<template>
 								<paper-input value="{{value}}" no-label-float></paper-input>
 							</template>
-						</bwt-datatable-column>
-						<bwt-datatable-column property="reserved" header="Reserved" type="boolean" default="false" style="min-width: 100px" cell-style="padding-left:40px;" align="center" editable>
+						</paper-datatable-column>
+						<paper-datatable-column property="reserved" header="Reserved" type="boolean" default="false" style="min-width: 100px" cell-style="padding-left:40px;" align="center" editable>
 							<template>
 								<paper-checkbox checked="{{value}}"></paper-checkbox>
 							</template>
-						</bwt-datatable-column>
-					</bwt-datatable>
-				</bwt-datatable-card>
+						</paper-datatable-column>
+					</paper-datatable>
+				</paper-datatable-card>
 
 				<div style="padding:20px">
 					Selected IDs: [[outputSelectedIds(selectedIds.splices)]]

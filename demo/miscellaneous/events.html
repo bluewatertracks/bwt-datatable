@@ -62,19 +62,19 @@
 					</paper-header-panel>
 					<demo-menu main>
 						<div style="padding:30px;">
-							<bwt-datatable-card id="card" header="Dangerously delicious" number-of-items="49">
+							<paper-datatable-card id="card" header="Dangerously delicious" number-of-items="49">
 								<div slot="toolbar-main">
 								</div>
 								<div slot="toolbar-select">
 									<paper-icon-button icon="delete" on-tap="delete"></paper-icon-button>
 								</div>
-								<bwt-datatable id="datatable" data="{{data}}" selectable multi-selection>
-									<bwt-datatable-column header="Dessert (100g serving)" property="title" type="String" style="width:99%;" sortable>
-									</bwt-datatable-column>
-									<bwt-datatable-column header="Calories" property="calories" type="Number" align="right" sortable tooltip="The total amount of food energy in the given serving size." cell-style="font-weight:bold;"></bwt-datatable-column>
-									<bwt-datatable-column header="Fat (g)" property="fat" type="Number" align="right" format-value="[[toFixedOne]]" sortable tooltip="The total amount of fat in the given serving size."></bwt-datatable-column>
-								</bwt-datatable>
-							</bwt-datatable-card>
+								<paper-datatable id="datatable" data="{{data}}" selectable multi-selection>
+									<paper-datatable-column header="Dessert (100g serving)" property="title" type="String" style="width:99%;" sortable>
+									</paper-datatable-column>
+									<paper-datatable-column header="Calories" property="calories" type="Number" align="right" sortable tooltip="The total amount of food energy in the given serving size." cell-style="font-weight:bold;"></paper-datatable-column>
+									<paper-datatable-column header="Fat (g)" property="fat" type="Number" align="right" format-value="[[toFixedOne]]" sortable tooltip="The total amount of fat in the given serving size."></paper-datatable-column>
+								</paper-datatable>
+							</paper-datatable-card>
 							<p>
 								Note: This demo attempts to showcase as many events as possible. It should be understood however that a single demo can not show all events as some
 								events are mutually exclusive.
@@ -145,7 +145,7 @@
 				app.$.datatable.addEventListener('row-tap', log.bind(app, 'datatable'));
 				app.$.datatable.addEventListener('cell-tap', log.bind(app, 'datatable'));
 				app.$.datatable.addEventListener('toggle-all', log.bind(app, 'datatable'));
-				var columns = document.querySelectorAll('bwt-datatable-column');
+				var columns = document.querySelectorAll('paper-datatable-column');
 				for(var i=0;i<columns.length;i++){
 					columns[i].addEventListener('cell-tap', log.bind(app, 'datatable-column'));
 				}

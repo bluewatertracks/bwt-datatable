@@ -1,4 +1,4 @@
-Bwt Datatable
+paper Datatable
 ===
 An implementation of [material design data tables](https://www.google.com/design/spec/components/data-tables.html)
 for [modern web browsers](?browser-support) and inherited from [David Mulder paper-datatable](http://github.com/David-Mulder/paper-datatable).  It can be found on GitHub over 
@@ -8,9 +8,9 @@ Installation
 ===
 The element can be installed using bower using
 
-	bower install --save bwt-datatable
+	bower install --save paper-datatable
 
-Important: If you wish to use `<bwt-datatable-card>` you need the paper elements listed in `devDependencies` as well. They are not listed as normal dependencies to prevent them from being pulled in on production if you do not need them.
+Important: If you wish to use `<paper-datatable-card>` you need the paper elements listed in `devDependencies` as well. They are not listed as normal dependencies to prevent them from being pulled in on production if you do not need them.
 
 License
 ===

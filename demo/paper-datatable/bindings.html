@@ -37,12 +37,12 @@
 			</custom-style>
 			<demo-menu>
 				<paper-card heading="Just a normal data table">
-					<bwt-datatable data="{{data}}" selectable selected-item="{{selectedItem}}">
-						<bwt-datatable-column header="Dessert (100g serving)" property="title" type="String" sortable></bwt-datatable-column>
-						<bwt-datatable-column header="Calories" property="calories" type="Number" align="right" sortable tooltip="The total amount of food energy in the given serving size." sorted></bwt-datatable-column>
-						<bwt-datatable-column header="Fat (g)" property="fat" type="Number" align="right" format-value="[[toFixedOne]]" sortable tooltip="The total amount of fat in the given serving size."></bwt-datatable-column>
-						<bwt-datatable-column header="Carbs (g)" property="carbs" type="Number" align="right" sortable tooltip="The total amount of carbs in the given serving size."></bwt-datatable-column>
-					</bwt-datatable>
+					<paper-datatable data="{{data}}" selectable selected-item="{{selectedItem}}">
+						<paper-datatable-column header="Dessert (100g serving)" property="title" type="String" sortable></paper-datatable-column>
+						<paper-datatable-column header="Calories" property="calories" type="Number" align="right" sortable tooltip="The total amount of food energy in the given serving size." sorted></paper-datatable-column>
+						<paper-datatable-column header="Fat (g)" property="fat" type="Number" align="right" format-value="[[toFixedOne]]" sortable tooltip="The total amount of fat in the given serving size."></paper-datatable-column>
+						<paper-datatable-column header="Carbs (g)" property="carbs" type="Number" align="right" sortable tooltip="The total amount of carbs in the given serving size."></paper-datatable-column>
+					</paper-datatable>
 				</paper-card>
 
 				<div class="horizontal layout" style="justify-content: space-around;margin-top:20px;flex-wrap:wrap;">
