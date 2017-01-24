@@ -44,56 +44,56 @@
 							--demo-menu-background: #303030;
 						}
 
-						bwt-datatable-card{
+						paper-datatable-card{
 							max-width: 1000px;
 							margin: 30px auto;
-							--bwt-datatable-selection-toolbar-color: var(--paper-grey-900);
-							--bwt-datatable-card: {
+							--paper-datatable-selection-toolbar-color: var(--paper-grey-900);
+							--paper-datatable-card: {
 								background: var(--paper-grey-800);
 							};
 							color: rgba(255, 255, 255, var(--dark-primary-opacity));
 							--paper-input-container-input-color: rgba(255, 255, 255, var(--dark-primary-opacity));
-							--bwt-datatable-navigation-bar-text-color: rgba(255, 255, 255, var(--dark-primary-opacity));
+							--paper-datatable-navigation-bar-text-color: rgba(255, 255, 255, var(--dark-primary-opacity));
 
-							--bwt-datatable-top-toolbar-text-color: rgba(255, 255, 255, var(--dark-primary-opacity));
+							--paper-datatable-top-toolbar-text-color: rgba(255, 255, 255, var(--dark-primary-opacity));
 
 						}
 
-						bwt-datatable{
-							--bwt-datatable-row-hover-color: inherit;
-							--bwt-datatable-row-selection-color: inherit;
+						paper-datatable{
+							--paper-datatable-row-hover-color: inherit;
+							--paper-datatable-row-selection-color: inherit;
 
-							--bwt-datatable-column-header: {
+							--paper-datatable-column-header: {
 								color: inherit;
 								padding-left: 5px;
 								padding-right: 5px;
 								min-width: 73px;
 								border-bottom: 0px;
 							};
-							--bwt-datatable-column-header-sorted: {
+							--paper-datatable-column-header-sorted: {
 								color: inherit;
 							};
-							--bwt-datatable-column-header-sort-icon-hover: {
+							--paper-datatable-column-header-sort-icon-hover: {
 								color: rgba(255, 255, 255, .5)
 							};
-							--bwt-datatable-column-header-last: {
+							--paper-datatable-column-header-last: {
 								padding-right: 24px;
 							};
-							--bwt-datatable-cell-last: {
+							--paper-datatable-cell-last: {
 								padding-right: 24px;
 							};
 
-							--bwt-datatable-header-checkbox-border-color: rgba(255, 255, 255, var(--dark-primary-opacity));
+							--paper-datatable-header-checkbox-border-color: rgba(255, 255, 255, var(--dark-primary-opacity));
 
-							--bwt-datatable-cell: {
+							--paper-datatable-cell: {
 								color: #212121;
 								padding-left: 5px;
 								padding-right: 5px;
 							};
 
-							--bwt-datatable-edit-dialog-color: #303030;
+							--paper-datatable-edit-dialog-color: #303030;
 
-							--bwt-datatable-edit-dialog: {
+							--paper-datatable-edit-dialog: {
 								border: 1px solid rgba(255, 255, 255, .2);
 								box-sizing: border-box;
 							}
@@ -101,28 +101,28 @@
 						}
 					</style>
 				</custom-style>
-				<bwt-datatable-card header="Dangerously delicious">
+				<paper-datatable-card header="Dangerously delicious">
 					<div slot="toolbar-main">
 						<paper-icon-button icon="more-vert"></paper-icon-button>
 					</div>
 					<div slot="toolbar-select">
 						<paper-icon-button icon="delete"></paper-icon-button>
 					</div>
-					<bwt-datatable data="{{data}}" selectable multi-selection custom-row-style="{{generateRowCss}}" progress="{{progressBarVisble}}" sort-property="calories" sort-direction="asc">
-						<bwt-datatable-column header="Dessert (100g serving)" property="title" type="String" style="width:99%;" sortable editable dialog edit-icon>
+					<paper-datatable data="{{data}}" selectable multi-selection custom-row-style="{{generateRowCss}}" progress="{{progressBarVisble}}" sort-property="calories" sort-direction="asc">
+						<paper-datatable-column header="Dessert (100g serving)" property="title" type="String" style="width:99%;" sortable editable dialog edit-icon>
 							<template>
 								<paper-input value="{{value}}" no-label-float maxlength="40" char-counter></paper-input>
 							</template>
-						</bwt-datatable-column>
-						<bwt-datatable-column header="Calories" property="calories" type="Number" align="right" sortable tooltip="The total amount of food energy in the given serving size." cell-style="font-weight:bold;"></bwt-datatable-column>
-						<bwt-datatable-column header="Fat (g)" property="fat" type="Number" align="right" format-value="[[toFixedOne]]" sortable tooltip="The total amount of fat in the given serving size."></bwt-datatable-column>
-						<bwt-datatable-column header="Carbs (g)" property="carbs" type="Number" align="right" sortable tooltip="The total amount of carbs in the given serving size."></bwt-datatable-column>
-						<bwt-datatable-column header="Protein (g)" property="protein" type="Number" align="right" format-value="[[toFixedOne]]" sortable tooltip="The total amount of protein in the given serving size."></bwt-datatable-column>
-						<bwt-datatable-column header="Sodium (mg)" property="sodium" type="Number" align="right" sortable tooltip="The amount of sodium as a percentage of the recommended daily amount."></bwt-datatable-column>
-						<bwt-datatable-column header="Calcium (%)" property="calcium" type="Number" align="right" format-value="[[toPercentage]]" sortable tooltip="The amount of calcium as a percentage of the recommended daily amount."></bwt-datatable-column>
-						<bwt-datatable-column header="Iron (%)" property="iron" type="Number" align="right" format-value="[[toPercentage]]" sortable tooltip="The amount of iron as a percentage of the recommended daily amount."></bwt-datatable-column>
-					</bwt-datatable>
-				</bwt-datatable-card>
+						</paper-datatable-column>
+						<paper-datatable-column header="Calories" property="calories" type="Number" align="right" sortable tooltip="The total amount of food energy in the given serving size." cell-style="font-weight:bold;"></paper-datatable-column>
+						<paper-datatable-column header="Fat (g)" property="fat" type="Number" align="right" format-value="[[toFixedOne]]" sortable tooltip="The total amount of fat in the given serving size."></paper-datatable-column>
+						<paper-datatable-column header="Carbs (g)" property="carbs" type="Number" align="right" sortable tooltip="The total amount of carbs in the given serving size."></paper-datatable-column>
+						<paper-datatable-column header="Protein (g)" property="protein" type="Number" align="right" format-value="[[toFixedOne]]" sortable tooltip="The total amount of protein in the given serving size."></paper-datatable-column>
+						<paper-datatable-column header="Sodium (mg)" property="sodium" type="Number" align="right" sortable tooltip="The amount of sodium as a percentage of the recommended daily amount."></paper-datatable-column>
+						<paper-datatable-column header="Calcium (%)" property="calcium" type="Number" align="right" format-value="[[toPercentage]]" sortable tooltip="The amount of calcium as a percentage of the recommended daily amount."></paper-datatable-column>
+						<paper-datatable-column header="Iron (%)" property="iron" type="Number" align="right" format-value="[[toPercentage]]" sortable tooltip="The amount of iron as a percentage of the recommended daily amount."></paper-datatable-column>
+					</paper-datatable>
+				</paper-datatable-card>
 
 			</template>
 

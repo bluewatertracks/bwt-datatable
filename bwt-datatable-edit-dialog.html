@@ -3,7 +3,7 @@
 <link rel="import" href="./bower_components/paper-material/paper-material.html">
 <link rel="import" href="./bower_components/iron-form/iron-form.html">
 <link rel="import" href="./bower_components/iron-resizable-behavior/iron-resizable-behavior.html">
-<dom-module id="bwt-datatable-edit-dialog">
+<dom-module id="paper-datatable-edit-dialog">
 	<template>
 		<custom-style>
 			<style is="custom-style">
@@ -23,10 +23,10 @@
 					min-width: 100px;
 					display: inline-block;
 					padding: 4px 24px;
-					background: var(--bwt-datatable-edit-dialog-color, var(--paper-grey-50));
+					background: var(--paper-datatable-edit-dialog-color, var(--paper-grey-50));
 					border-radius: 2px;
 					box-sizing: border-box;
-					@apply --bwt-datatable-edit-dialog;
+					@apply --paper-datatable-edit-dialog;
 				}
 			</style>
 		</custom-style>
@@ -42,13 +42,13 @@
 		 * This shouldn't be showing up here, but I can't see to get this documentation system to ignore this file,
 		 * so just ignore it.
 		 *
-		 * This element is used internally to render the dialog boxes when `<bwt-datatable-column>` is used with the
+		 * This element is used internally to render the dialog boxes when `<paper-datatable-column>` is used with the
 		 * `[dialog]` attribute.
 		 */
 
 		Polymer({
 
-			is: 'bwt-datatable-edit-dialog',
+			is: 'paper-datatable-edit-dialog',
 
 			properties: {
 				positionedRelativeTo: {

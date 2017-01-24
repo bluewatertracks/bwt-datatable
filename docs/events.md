@@ -4,16 +4,16 @@ All properties with a `notifies` label in the API references will trigger a `pro
 element also exposes a few custom events which are documented here. One of the best ways to find events is
 simply be exploring the [event explorer](../demo/events.html).
 
-`<bwt-datatable>` and `<bwt-datatable-column>`
+`<paper-datatable>` and `<paper-datatable-column>`
 ===
 Taps
 ---
 
  - `row-tap` is triggered when a user taps anywhere on a row. The `item` of the row can be found in the `detail` object.
    This event can be cancelled using `event.preventDefault()` which will prevent the row from getting selected. 
- - `cell-tap` on `<bwt-datatable>` is triggered whenever any cell is tapped containing both the `item` and `column` in
+ - `cell-tap` on `<paper-datatable>` is triggered whenever any cell is tapped containing both the `item` and `column` in
    the `detail` object.
- - `cell-tap` on `<bwt-datatable-column>` is triggered whenever a cell in that column is tapped. It contains only the 
+ - `cell-tap` on `<paper-datatable-column>` is triggered whenever a cell in that column is tapped. It contains only the 
    `item` of the current row.
 
 Selections
@@ -26,6 +26,6 @@ Other
 ---
  - `sort` is triggered when a column is tapped and can be cancelled.
 
-`<bwt-datatable-card>`
+`<paper-datatable-card>`
 ===
 Doesn't expose any special events beyond the standard Polymer `*-changed` events which you can find in the API reference.

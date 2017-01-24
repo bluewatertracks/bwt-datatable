@@ -24,10 +24,10 @@ reason for this is that this allows you to create a
 
 object which in turn you bind to this element. I have however been considering allowing manual binding directly as well.
 
-Using `<bwt-datatable-card>` without a `data-source`
+Using `<paper-datatable-card>` without a `data-source`
 ===
 Sometimes it might make sense to do your own implementation of pagination. Sadly extending custom elements is not possible
-yet, but you can simply use a `<bwt-datatable-card>` without a `data-source` and next listen for events like
+yet, but you can simply use a `<paper-datatable-card>` without a `data-source` and next listen for events like
 `page-changed`, `sort`, etc. to handle all the data switchery. It's good to note that a lot of events (like `sort`) do 
 support `event.preventDefault()`.
 

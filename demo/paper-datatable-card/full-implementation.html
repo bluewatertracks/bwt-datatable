@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 	<head>
-		<title>Full `bwt-datatable-card` implementation</title>
+		<title>Full `paper-datatable-card` implementation</title>
 		<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 		<script>
 			window.Polymer = window.Polymer || {};
@@ -55,7 +55,7 @@
 					</template>
 				</paper-dialog>
 
-				<bwt-datatable-card id="datatableCard" header="Users" page-size="10" data-source="{{data}}" id-property="id" selected-ids="{{selectedIds}}">
+				<paper-datatable-card id="datatableCard" header="Users" page-size="10" data-source="{{data}}" id-property="id" selected-ids="{{selectedIds}}">
 					<div slot="toolbar-main">
 						<paper-input value="{{searchTerm}}" on-input="retrieveResults" label="Search..." style="display:inline-block" no-label-float>
 							<div prefix>
@@ -70,24 +70,24 @@
 					<div slot="toolbar-select-single">
 						<paper-icon-button icon="datatable:editable" on-tap="editDialogForSelected"></paper-icon-button>
 					</div>
-					<bwt-datatable id="datatable" selectable multi-selection selected-items="{{selectedItems}}" on-row-tap="rowTapped">
+					<paper-datatable id="datatable" selectable multi-selection selected-items="{{selectedItems}}" on-row-tap="rowTapped">
 						<div no-results>
 							Loading or no more items...
 						</div>
-						<bwt-datatable-column header="ID" property="id" type="String" tooltip="Some title" sortable align="center" style="min-width: 40px" sorted></bwt-datatable-column>
-						<bwt-datatable-column header="Name" property="name" type="Object" tooltip="Some title" sortable style="min-width: 160px">
+						<paper-datatable-column header="ID" property="id" type="String" tooltip="Some title" sortable align="center" style="min-width: 40px" sorted></paper-datatable-column>
+						<paper-datatable-column header="Name" property="name" type="Object" tooltip="Some title" sortable style="min-width: 160px">
 							<template>
 								<span>[[value.first]]</span>
 								<span>[[value.last]]</span>
 							</template>
-						</bwt-datatable-column>
-						<bwt-datatable-column header="Birthday" property="birthday" type="Date" tooltip="Some title" sortable style="min-width: 40px" inactive></bwt-datatable-column>
-						<bwt-datatable-column header="About me" property="about" type="String" sortable tooltip="Some title" style="min-width: 320px" dialog format-value="{{clip}}" edit-icon>
+						</paper-datatable-column>
+						<paper-datatable-column header="Birthday" property="birthday" type="Date" tooltip="Some title" sortable style="min-width: 40px" inactive></paper-datatable-column>
+						<paper-datatable-column header="About me" property="about" type="String" sortable tooltip="Some title" style="min-width: 320px" dialog format-value="{{clip}}" edit-icon>
 							<template>
 								<paper-textarea value="{{value}}" no-label-float></paper-textarea>
 							</template>
-						</bwt-datatable-column>
-						<bwt-datatable-column header="Location" property="location" type="Object" tooltip="Some title" style="min-width: 300px" cell-style="font-family:monospace;" dialog format-value="{{formatLatLng}}" edit-icon>
+						</paper-datatable-column>
+						<paper-datatable-column header="Location" property="location" type="Object" tooltip="Some title" style="min-width: 300px" cell-style="font-family:monospace;" dialog format-value="{{formatLatLng}}" edit-icon>
 							<template>
 								<span>
 									<google-map latitude="{{value.lat}}" longitude="{{value.lng}}" style="height:300px;margin:20px 0px;" zoom="3">
@@ -95,9 +95,9 @@
 									</google-map>
 								</span>
 							</template>
-						</bwt-datatable-column>
-					</bwt-datatable>
-				</bwt-datatable-card>
+						</paper-datatable-column>
+					</paper-datatable>
+				</paper-datatable-card>
 
 				<div style="padding:20px; max-width:500px; margin:auto;text-align:justify;">
 					Note: This demo isn't using a 'real' database, but instead queries a localStorage array. Sorting, pagination,

@@ -12,7 +12,7 @@
 
 
 <script src="weakCache.js"></script>
-<dom-module id="bwt-datatable-card">
+<dom-module id="paper-datatable-card">
 	<template>
 		<custom-style>
 			<style is="custom-style">
@@ -23,16 +23,16 @@
 				paper-material{
 					border-radius: 2px;
 					background: white;
-					@apply --bwt-datatable-card;
+					@apply --paper-datatable-card;
 				}
 				#selectionToolbar{
 					display: none;
-					background: var(--bwt-datatable-selection-toolbar-color, var(--paper-pink-50));
-					@apply --bwt-datatable-selection-toolbar;
+					background: var(--paper-datatable-selection-toolbar-color, var(--paper-pink-50));
+					@apply --paper-datatable-selection-toolbar;
 					padding:0px 12px 0px 24px;
 				}
 				#selectionToolbar .selectionHeader, #selectionToolbar .toolbar ::content paper-icon-button{
-					color: var(--bwt-datatable-selection-toolbar-text-color, var(--accent-color));
+					color: var(--paper-datatable-selection-toolbar-text-color, var(--accent-color));
 				}
 				#selectionToolbar[data-visible]{
 					display: flex;
@@ -50,20 +50,20 @@
 					height:64px;
 					padding:0px 6px 0px 24px;
 					position:relative;
-					@apply --bwt-datatable-top-toolbar;
+					@apply --paper-datatable-top-toolbar;
 				}
 				#topBlock .header{
 					font-size:20px;
 					@apply --paper-font-common-base;
-					color: var(--bwt-datatable-top-toolbar-text-color);
+					color: var(--paper-datatable-top-toolbar-text-color);
 				}
 				#selectionToolbar > ::content paper-icon-button, .toolbar > ::content paper-icon-button,
 				#selectionToolbar > ::content paper-icon, .toolbar > ::content paper-icon,
 				#selectionToolbar > ::content iron-icon, .toolbar > ::content iron-icon{
-					color: var(--bwt-datatable-selection-toolbar-icon-color, rgba(0,0,0,.54));
+					color: var(--paper-datatable-selection-toolbar-icon-color, rgba(0,0,0,.54));
 				}
 				#toolbar-main ::content paper-icon-button, #toolbar-main ::content paper-icon, #toolbar-main ::content iron-icon{
-					color: var(--bwt-datatable-top-toolbar-icon-color);
+					color: var(--paper-datatable-top-toolbar-icon-color);
 				}
 				#topBlock .selectionHeader{
 					font-size:16px;
@@ -72,13 +72,13 @@
 				#bottomBlock{
 					height:56px;
 					padding:0px 6px;
-					border-top: 1px solid var(--bwt-datatable-divider-color, var(--divider-color));
-					color: var(--bwt-datatable-navigation-bar-text-color, rgba(0,0,0,.54));
+					border-top: 1px solid var(--paper-datatable-divider-color, var(--divider-color));
+					color: var(--paper-datatable-navigation-bar-text-color, rgba(0,0,0,.54));
 					align-items: center;
 					font-size: 12px;
 					text-align: center;
 					font-weight: 500;
-					@apply --bwt-datatable-navigation-bar;
+					@apply --paper-datatable-navigation-bar;
 				}
 				#bottomBlock paper-dropdown-menu{
 					vertical-align: middle;
@@ -90,10 +90,10 @@
 						text-align: right;
 						font-size: 12px;
 						font-weight: 500;
-						color: var(--bwt-datatable-navigation-bar-text-color, rgba(0,0,0,.54));
+						color: var(--paper-datatable-navigation-bar-text-color, rgba(0,0,0,.54));
 					};
 					--paper-dropdown-menu-icon: {
-						color: var(--bwt-datatable-navigation-bar-text-color, rgba(0,0,0,.54));
+						color: var(--paper-datatable-navigation-bar-text-color, rgba(0,0,0,.54));
 					};
 					
 				}
@@ -154,14 +154,14 @@
 			 A [material design implementation of the tables within cards spec](https://www.google.com/design/spec/components/data-tables.html#data-tables-tables-within-cards).
 
 
-			 @element bwt-datatable-card
+			 @element paper-datatable-card
 			 @demo demo/users-card.html Polished demo
-			 @demo demo/bwt-datatable-card.html Complex demo
+			 @demo demo/paper-datatable-card.html Complex demo
 			 */
 
 			Polymer({
 
-				is: 'bwt-datatable-card',
+				is: 'paper-datatable-card',
 				properties: {
 					/**
 					 * Heading shown above the data table
@@ -270,7 +270,7 @@
 					_numberselectedIds: Number
 				},
 				ready: function(){
-					this._datatable = Polymer.dom(this).querySelector("bwt-datatable");
+					this._datatable = Polymer.dom(this).querySelector("paper-datatable");
 					this._datatable.data = [];
 					this._datatable.addEventListener("data-changed", this._triggerSave.bind(this));
 					this._datatable.addEventListener("sort", this._handleSort.bind(this));
