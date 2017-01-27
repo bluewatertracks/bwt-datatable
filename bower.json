@@ -6,7 +6,8 @@
   ],
   "description": "Material design data table.",
   "keywords": [
-    "web-component",
+    "bwt-datatable",
+    "paper-datatable",
     "web-components",
     "polymer",
     "data-table"
