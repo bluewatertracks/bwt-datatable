@@ -17,7 +17,7 @@
     "bwt-datatable-card.html"
   ],
   "license": "http://www.gnu.org/licenses/gpl-3.0.en.html",
-  "homepage": "https://github.com/bluewatertrackstemp/bwt-datatable",
+  "homepage": "https://github.com/bluewatertracks/bwt-datatable",
   "ignore": [
     "/.*",
     "/test/"
