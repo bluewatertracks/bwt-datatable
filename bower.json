@@ -43,6 +43,9 @@
     "paper-dropdown-menu": "PolymerElements/paper-dropdown-menu#~1.1.0",
     "paper-input": "PolymerElements/paper-input#~1.0.18",
     "paper-header-panel": "^1.1.7",
-    "paper-drawer-panel": "PolymerElements/paper-drawer-panel#^1.0.11"
+    "paper-drawer-panel": "PolymerElements/paper-drawer-panel#^1.0.11",
+    "paper-dialog": "PolymerElements/paper-dialog#^1.1.0",
+    "paper-dialog-scrollable": "PolymerElements/paper-dialog-scrollable#^1.1.5",
+    "google-map": "GoogleWebComponents/google-map#^1.2.0"
   }
 }
