@@ -1,10 +1,11 @@
 # Bwt-datatable
 
-We greatly appreciated the work of [David Mulder's paper-datatable](https://github.com/David-Mulder/paper-datatable) and decide to inherited it cause so good project must to evolve. Since many people already use `paper-datatable` component we create this component in compability with `paper-datatable`. You can easily use this element only change path to `paper-datatable` elements to import it. The example is below
+### About
+We greatly appreciated the work of [David Mulder's paper-datatable](https://github.com/David-Mulder/paper-datatable) but since it hasn't been active for a while and we at Blue Water Tracks really wanted to keep pushing the work done so far, we decided to inherit the project and let it evolve but combining the pull requests on the project along with a couple of fixes and features that we came up with. Since many people already use the `paper-datatable` component, we created this component to make sure that it is compabilite with the `paper-datatable` component. You can easily use this element only changing the path to `paper-datatable` import element like below. We hope that it could someday be merged into the original paper-datatable code.
 
 ### Before
 	<link rel="import" href="/bower_components/paper-datatable/paper-datatable.html">
-	
+
 ### Now
 	<link rel="import" href="/bower_components/bwt-datatable/bwt-datatable.html">
 
@@ -16,8 +17,8 @@ We greatly appreciated the work of [David Mulder's paper-datatable](https://gith
 ## New changes
 
  - Column header update dynamically according to [paper-datatable pull request #78](https://github.com/David-Mulder/paper-datatable/pull/78)
- - Ability to use `bwt-datatable` on mobile devices by easily set `responseWidth` property to desired screen resolution.
- 
+ - Truly responsive; ability to use `bwt-datatable` on mobile devices by easily setting the  `responseWidth` property to the desired screen resolution.
+
  		<paper-datatable data="{{data}}" selectable multi-selection response-width="767px">
 			<paper-datatable-column header="Title" property="title" sortable editable>
 			</paper-datatable-column>
@@ -27,10 +28,11 @@ We greatly appreciated the work of [David Mulder's paper-datatable](https://gith
   <img src="https://github.com/bluewatertracks/bwt-datatable/blob/master/images/bwt-datatable-mobile.png" alt="bwt-datatable mobile view"/>
 </p>
 
-We also try to add additional functionality and fix some bugs in datatable and we approve some pull requests from `paper-datatable`:
+We also tried to add additional functionality and fix some of the bugs in paper-datatable and also merge the following pull requests for ``paper-datatable``
 - Fix issue with null values inside paper-column [pull request #113](https://github.com/David-Mulder/paper-datatable/pull/113)
-- Change es6 to es5 code [request #51](https://github.com/David-Mulder/paper-datatable/pull/51) and [request #106](https://github.com/David-Mulder/paper-datatable/pull/106) 
-- Use textContent instead of innerHTML inside elements [request #108](https://github.com/David-Mulder/paper-datatable/pull/108) 
+- Change es6 to es5 code to support some of the older browsers [request #51](https://github.com/David-Mulder/paper-datatable/pull/51) and [request #106](https://github.com/David-Mulder/paper-datatable/pull/106)
+ (Hopefully when Polymer 2 ships with transpiling, we can rewrite the code into proper ES6 code)
+- Use textContent instead of innerHTML inside elements [request #108](https://github.com/David-Mulder/paper-datatable/pull/108)
 
 ## Installation
 
