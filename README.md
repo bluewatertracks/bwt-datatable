@@ -1,7 +1,8 @@
-# Bwt-datatable
+# bwt-datatable
 
 ### About
-We greatly appreciated the work of [David Mulder's paper-datatable](https://github.com/David-Mulder/paper-datatable) but since it hasn't been active for a while and we at Blue Water Tracks really wanted to keep pushing the work done so far, we decided to inherit the project and let it evolve but combining the pull requests on the project along with a couple of fixes and features that we came up with. Since many people already use the `paper-datatable` component, we created this component to make sure that it is compabilite with the `paper-datatable` component. You can easily use this element only changing the path to `paper-datatable` import element like below. We hope that it could someday be merged into the original paper-datatable code.
+We greatly appreciated the work of [David Mulder's paper-datatable](https://github.com/David-Mulder/paper-datatable) but since it hasn't been active for a while and we at Blue Water Tracks really wanted to keep pushing the work done so far, we decided to inherit the project and let it evolve but combining the pull requests on the project along with a couple of fixes and features that we came up with. Since many people already use the `paper-datatable` component, we created this component to make sure that it is compatible with the `paper-datatable` component. You can easily use this element only changing the path to `paper-datatable` import element like below. 
+We hope that David takes what we have done with`bwt-datatable` and merges it into the original `paper-datatable`. 
 
 ### Before
 	<link rel="import" href="/bower_components/paper-datatable/paper-datatable.html">
@@ -17,7 +18,7 @@ We greatly appreciated the work of [David Mulder's paper-datatable](https://gith
 ## New changes
 
  - Column header update dynamically according to [paper-datatable pull request #78](https://github.com/David-Mulder/paper-datatable/pull/78)
- - Truly responsive; ability to use `bwt-datatable` on mobile devices by easily setting the  `responseWidth` property to the desired screen resolution.
+ - Truly responsive; ability to use `bwt-datatable` on mobile devices by easily setting the  `responseWidth` property to the desired breakpoint resolution.
 
  		<paper-datatable data="{{data}}" selectable multi-selection response-width="767px">
 			<paper-datatable-column header="Title" property="title" sortable editable>
