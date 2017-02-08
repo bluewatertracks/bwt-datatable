@@ -10,8 +10,18 @@ We hope that David takes what we have done with`bwt-datatable` and merges it int
 ### Now
 	<link rel="import" href="/bower_components/bwt-datatable/bwt-datatable.html">
 
- - Documentation can be found [here](http://david-mulder.github.io/paper-datatable/components/paper-datatable/docs/docs.html?installation)
- - Demos can be found [here](http://david-mulder.github.io/paper-datatable/components/paper-datatable/demo/paper-datatable-card/full-implementation.html)
+If you already used selection toolbar in `paper-datatable-card` you need to add slot property to it like this: 
+
+    <div slot="toolbar-select-single">
+      <paper-icon-button icon="info" on-tap="info"></paper-icon-button>
+    </div>
+    <div slot="toolbar-select">
+      <paper-icon-button icon="delete" on-tap="delete"></paper-icon-button>
+    </div>
+
+ - Original `paper-datatable` documentation and demos can be found [here](http://david-mulder.github.io/paper-datatable/components/paper-datatable/docs/docs.html?installation)
+ - Our documentation and demos can be found [here](https://bluewatertracks.github.io/bwt-datatable/components/bwt-datatable/docs/docs.html?installation)
+
 
 [![datatable full implementation](http://david-mulder.github.io/paper-datatable/components/paper-datatable/docs/screenshot.png)](http://david-mulder.github.io/paper-datatable/components/paper-datatable/demo/paper-datatable-card/full-implementation.html)
 
@@ -45,7 +55,7 @@ The element can be installed using bower using
 
 ## Usage
 
-Check out the [getting started guide](http://david-mulder.github.io/paper-datatable/components/paper-datatable/docs/docs.html?getting-started).
+Check out the [getting started guide](https://bluewatertracks.github.io/bwt-datatable/components/bwt-datatable/docs/docs.html?getting-started).
 
 ## Contributors
 
