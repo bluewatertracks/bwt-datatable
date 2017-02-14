@@ -697,7 +697,7 @@
 											delete cell.instance;
 										//added text to span
 										cell.querySelector('p').textContent = self._columns[index].header;
-										cell.querySelector('span').textContent = cell.dataColumn._formatValue(data)
+										cell.querySelector('span').textContent = cell.dataColumn._formatValue(data);
 										//cell.textContent = data;
 									}
 								}
@@ -825,7 +825,7 @@
 					if(this.multiSelection) {
 						this.selectedItems.forEach(function(item){
 							this.deselect(item, notify);
-						}.bind(this))
+						}.bind(this));
 					}else{
 						this.deselect(this.selectedItem, notify);
 					}
@@ -1092,7 +1092,7 @@
 				},
 
 				_triggerDialogResize: function(){
-					this.$.dialog.setLocationRelativeTo()
+					this.$.dialog.setLocationRelativeTo();
 				},
 
 				_noItemsVisible: function(){
@@ -1170,7 +1170,7 @@
 				},
 				_updateHeaderColumn: function(event){
  					var column = Polymer.dom(event).localTarget;
- 					this.notifyPath(`_columns.${column.index}.header`, this._columns[column.index].header);
+ 					this.notifyPath('_columns.'+column.index+'.header', this._columns[column.index].header);
  				}
 			});
 		})();
