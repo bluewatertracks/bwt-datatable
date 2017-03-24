@@ -8,6 +8,7 @@
 <link rel="import" href="../paper-tooltip/paper-tooltip.html">
 <link rel="import" href="../paper-progress/paper-progress.html">
 <link rel="import" href="../iron-media-query/iron-media-query.html">
+<link rel="import" href="../iron-scroll-target-behavior/iron-scroll-target-behavior.html">
 
 <script src="weakCache.js"></script>
 
@@ -282,7 +283,19 @@
 				tr[mobile-view]:hover td {
 					background: none; 
 				}
-				
+
+				.fixedToTop {
+					background: #fff;
+					position: fixed !important;
+					box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2);					
+					top: 0;
+					z-index: 1;
+					transition: top 1s ease-out 2s;
+				}
+
+				.fixedToTop tr td, .fixedToTop tr th {
+					border-bottom: 0px;
+				}
 			</style>
 		</custom-style>
 		<iron-media-query query="(max-width: [[responseWidth]])" query-matches="{{mobileView}}"></iron-media-query>
@@ -544,11 +557,27 @@
 						type: String,
 						value: '767px'
 					},
-					mobileView: Boolean
+					mobileView: Boolean,
+					/**
+					 * Fix column header to the top of the page on scroll
+					 *
+					 * @attribute fixedColumnHeader
+					 * @type Boolean
+					 * @default false
+					 */
+					сolumnHeaderFixed: {
+						type: Boolean,
+						reflectToAttribute: true,
+						value: false
+					},
+					_theadDistanseToTop: {
+						type: Number
+					}
 				},
 
 				behaviors: [
-					Polymer.IronResizableBehavior
+					Polymer.IronResizableBehavior,
+					Polymer.IronScrollTargetBehavior
 				],
 
 				observers: [
@@ -1110,7 +1139,51 @@
 				_setPartialSelection: function(){
 					this.set('_partialSelection', this._someChecked());
 				},
+				/**1
+				 * Scroll listener from IronScrollTargetBehavior with logic
+				 */
+				_scrollHandler: function (e) {
+					var tableHead = Polymer.dom(this.root).querySelector('thead');
+					if (this._scrollTop > this._theadDistanseToTop && !tableHead.classList.contains("fixedToTop")) {
+						var headerWidth = getComputedStyle(tableHead).width;
+						var tableRow = tableHead.children[0];
+						var columns = Polymer.dom(tableRow).querySelectorAll('.column');
+						/*Set right width for each column header*/
+						Array.prototype.forEach.call(columns, function(item){
+							item.style.width = item.offsetWidth + "px";
+						});
+						if (this._headerHeight && !this.mobileView) {
+							tableHead.style.top = this._headerHeight + "px";
+							this.$.container.style.marginTop = this._theadDistanseToTop + this._headerHeight - 3 +"px";
+						} else {
+							tableHead.style.width = headerWidth;
+							this.$.container.style.marginTop = tableHead.offsetHeight + "px";
+						}
+						tableHead.classList.add("fixedToTop");
+					} else if (this._scrollTop < this._theadDistanseToTop && tableHead.classList.contains("fixedToTop")) {
+						tableHead.style.width = "auto";
+						this.$.container.style.marginTop = 0;
+						tableHead.classList.remove("fixedToTop");
+					}
+				},
+				/**
+				 * Set scroll target and coordinates to top
+				 */
+				_resizeHandler: function() {
+					if (this.сolumnHeaderFixed && !this._theadDistanseToTop) {
+						var thead = Polymer.dom(this.root).querySelector('thead');
+						var parentNodeName = this.parentNode.nodeName;
+						if (parentNodeName.toLowerCase() === 'paper-datatable-card' && this.parentNode.headerFixed) {
+							var header = Polymer.dom(this.parentNode.root).querySelector('#topBlock');
+							this._headerHeight = header.offsetHeight;
+							this._theadDistanseToTop = thead.getBoundingClientRect().top - this._headerHeight;					
+						} else {
+							this._theadDistanseToTop = thead.getBoundingClientRect().top;											
+						}
+					}
+				},
 				_resizeListener: function(){
+					this._resizeHandler();
 					this._renderTooltipsIfOverflow();
 					this._setDynamicColumnsBySize();
 				},
