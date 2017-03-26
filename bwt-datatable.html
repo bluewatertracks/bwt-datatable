@@ -246,6 +246,10 @@
 						
 				}
 
+				tbody[mobile-view]{
+					overflow: hidden;
+				}
+
 				/* Hide table headers (but not display: none;, for accessibility) */
 				thead tr[mobile-view] { 
 					position: absolute;
@@ -263,19 +267,19 @@
 					position: relative;
 					padding-right: 26px !important;
 					text-align: right !important;
-					height: initial !important;
+					height: 36px;
 				}
 
 				td[mobile-view]:last-of-type {
 					text-align: -webkit-right !Important;
-					padding-bottom: 30px;
+					padding-bottom: 45px !important;
 				}
 
 				tr td[mobile-view]:first-child {
 					margin-left: 12px;
 					padding-right: 0px;
-					padding-top: 20px;
-					width: 56px;
+					padding-top: 15px;
+					width: 100%;
 					left: -12px;
 					text-align: left !important;
 				}
@@ -284,13 +288,16 @@
 					background: none; 
 				}
 
+				.mobileHeader {
+					font-weight: 500;
+				}
+
 				.fixedToTop {
 					background: #fff;
 					position: fixed !important;
 					box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2);					
 					top: 0;
 					z-index: 1;
-					transition: top 1s ease-out 2s;
 				}
 
 				.fixedToTop tr td, .fixedToTop tr th {
@@ -353,7 +360,7 @@
 								<template id="cellRepeat" is="dom-repeat" items="[[_columns]]" as="column" on-dom-change="_restructureData">
 									<td data-empty class="bound-cell" mobile-view$="[[mobileView]]" data-column="[[column]]" data-editable$="[[column.editable]]" data-edit-icon$="[[column.editIcon]]" on-tap="_cellTapped">
 										<div>
-											<p hidden$="[[!mobileView]]"></p>
+											<p class="mobileHeader" hidden$="[[!mobileView]]"></p>
 											<span></span>
 											<iron-icon icon="datatable:editable" class="editable"></iron-icon>
 										</div>
@@ -1143,27 +1150,31 @@
 				 * Scroll listener from IronScrollTargetBehavior with logic
 				 */
 				_scrollHandler: function (e) {
-					var tableHead = Polymer.dom(this.root).querySelector('thead');
-					if (this._scrollTop > this._theadDistanseToTop && !tableHead.classList.contains("fixedToTop")) {
-						var headerWidth = getComputedStyle(tableHead).width;
-						var tableRow = tableHead.children[0];
-						var columns = Polymer.dom(tableRow).querySelectorAll('.column');
-						/*Set right width for each column header*/
-						Array.prototype.forEach.call(columns, function(item){
-							item.style.width = item.offsetWidth + "px";
-						});
-						if (this._headerHeight && !this.mobileView) {
-							tableHead.style.top = this._headerHeight + "px";
-							this.$.container.style.marginTop = this._theadDistanseToTop + this._headerHeight - 3 +"px";
-						} else {
+					if (!this.mobileView) {
+						var tableHead = Polymer.dom(this.root).querySelector('thead');
+						if (this._scrollTop > this._theadDistanseToTop && !tableHead.classList.contains("fixedToTop")) {
+							var headerWidth = getComputedStyle(tableHead).width;
+							var tableHeadRow = tableHead.children[0];
+							var columns = Polymer.dom(tableHeadRow).querySelectorAll('.column');
+							var firstRow = Polymer.dom(this.root).querySelector('tbody tr');	
+							var firstRowCells = Polymer.dom(firstRow).querySelectorAll('.bound-cell');
+							/*Set right width for each column header*/
+							Array.prototype.forEach.call(columns, function(item, index){
+								item.style.width = firstRowCells[index].style.width = item.offsetWidth + "px";
+							});
+							if (this._headerHeight) {
+								tableHead.style.top = this._headerHeight + "px";
+								this.$.container.style.marginTop = this._theadDistanseToTop + this._headerHeight - 5 +"px";
+							} else {
+								this.$.container.style.marginTop = tableHead.offsetHeight + "px";
+							}
 							tableHead.style.width = headerWidth;
-							this.$.container.style.marginTop = tableHead.offsetHeight + "px";
+							tableHead.classList.add("fixedToTop");
+						} else if (this._scrollTop < this._theadDistanseToTop && tableHead.classList.contains("fixedToTop")) {
+							tableHead.style.width = "auto";
+							this.$.container.style.marginTop = 0;
+							tableHead.classList.remove("fixedToTop");
 						}
-						tableHead.classList.add("fixedToTop");
-					} else if (this._scrollTop < this._theadDistanseToTop && tableHead.classList.contains("fixedToTop")) {
-						tableHead.style.width = "auto";
-						this.$.container.style.marginTop = 0;
-						tableHead.classList.remove("fixedToTop");
 					}
 				},
 				/**
