@@ -32,7 +32,8 @@
     "paper-styles": "PolymerElements/paper-styles#~1.0.12",
     "whenever.js": "~0.0.1",
     "iron-form": "PolymerElements/iron-form#~1.0.12",
-    "iron-media-query": "PolymerElements/iron-media-query#^1.0.8"
+    "iron-media-query": "PolymerElements/iron-media-query#^1.0.8",
+    "iron-scroll-target-behavior": "PolymerElements/iron-scroll-target-behavior#^1.0.0"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
