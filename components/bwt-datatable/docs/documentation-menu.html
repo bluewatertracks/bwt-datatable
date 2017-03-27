@@ -1,0 +1,273 @@
+<link rel="import" href="../../paper-drawer-panel/paper-drawer-panel.html">
+<link rel="import" href="../../iron-icon/iron-icon.html">
+<link rel="import" href="../../iron-icons/iron-icons.html">
+<link rel="import" href="../../paper-input/paper-input.html">
+<link rel="import" href="../../paper-item/paper-item.html">
+<link rel="import" href="../../paper-menu/paper-menu.html">
+<link rel="import" href="../../paper-menu/paper-submenu.html">
+<link rel="import" href="../../paper-styles/paper-styles.html">
+<link rel="import" href="../../paper-header-panel/paper-header-panel.html">
+<link rel="import" href="../../paper-toolbar/paper-toolbar.html">
+
+<dom-module id="demo-menu">
+	<template>
+		<custom-style>
+			<style is="custom-style">
+				iron-icon{
+					padding-right: 10px;
+					width: 34px;
+				}
+				paper-item{
+					font-size: 12px;
+					line-height: 12px;
+					cursor: pointer;
+				}
+				#content{
+					overflow: auto;
+					position: absolute;
+					left: 0px;
+					top: 0px;
+					right: 0px;
+					bottom: 0px;
+					background: #f5f5f5;
+					background: var(--demo-menu-background);
+					padding: 20px;
+				}
+				#drawer{
+					background: white;
+					position: absolute;
+					left: 0px;
+					right: 0px;
+					top: 0px;
+					bottom: 0px;
+					overflow: auto;
+				}
+				.menu-content{
+					padding-left: 10px;
+				}
+
+				paper-header-panel {
+					--paper-header-panel-shadow: {
+						height: 0px;
+						bottom: 0px;
+					};
+				}
+				paper-item.indent{
+					margin-left: 20px;
+				}
+				paper-item.unindent{
+					margin-left: 0px;
+				}
+				.title{
+					margin-left: 10px !important;
+					font-size: 18px !important;
+				}
+				.title.small{
+					font-variant: small-caps;
+					font-size: 16px !important;
+				}
+				.search paper-input{
+					--paper-input-container-color: white;
+					--paper-input-container-focus-color: lightblue;
+					--paper-input-container-input-color: white;
+				}
+				#noresults{
+					text-align: center;
+					@apply --paper-font-common-base;
+					font-variant: small-caps;
+					color: rgba(0,0,0,.8);
+				}
+			</style>
+		</custom-style>
+		<paper-drawer-panel>
+			<paper-header-panel id="drawer" drawer>
+				<paper-toolbar>
+					<div class="title" style="">
+						&lt;paper-datatable&gt;
+					</div>
+				</paper-toolbar>
+				<paper-menu id="menu" selected="{{currentUrl}}" attr-for-selected="data-url" on-iron-activate="navigate">
+					<paper-item data-url="docs/docs.html?installation" data-keywords='["install", "installation", "bower", "license", "browser", "support"]'>
+						<iron-icon icon="book"></iron-icon>Installation</span>
+					</paper-item>
+					<paper-item data-url="docs/docs.html?getting-started" data-keywords='["editable", "edit", "columns", "tutorial", "docs", "hash", "keys"]'>
+						<iron-icon icon="book"></iron-icon>Getting started</span>
+					</paper-item>
+					<paper-item data-url="demo/paper-datatable/" class="indent" data-keywords='["tutorial", "simple", "example", "demo"]'>
+						<iron-icon icon="favorite"></iron-icon><span>Simple <code>&lt;datatable&gt;</code></span>
+					</paper-item>
+					<paper-item data-url="demo/paper-datatable/editable.html" class="indent" data-keywords='["editable", "tutorial", "simple", "example", "demo", "dialog"]'>
+						<iron-icon icon="favorite"></iron-icon><span>Editable <code>&lt;datatable&gt;</code></span>
+					</paper-item>
+					<paper-item data-url="demo/paper-datatable/mobile.html" class="indent" data-keywords='["editable", "tutorial", "simple", "example", "demo", "dialog"]'>
+						<iron-icon icon="favorite"></iron-icon><span>Mobile view of <code>&lt;datatable&gt;</code></span>
+					</paper-item>
+					<paper-item data-url="docs/docs.html?getting-started-with-data-table-cards" data-keywords='["pagination", "pages", "card", "cards", "docs"]'>
+						<iron-icon icon="book"></iron-icon>Data tables in cards</span>
+					</paper-item>
+					<paper-item data-url="demo/paper-datatable-card/" class="indent" data-keywords='["pagination", "pages", "card", "cards", "demo"]'>
+						<iron-icon icon="explore"></iron-icon><span>Simple <code>&lt;datatable-card&gt;</code></span>
+					</paper-item>
+					<paper-item data-url="demo/paper-datatable-card/full-implementation.html" class="indent" data-keywords='["pagination", "pages", "card", "cards", "demo", "data-source", "datasource", "data source", "search"]'>
+						<iron-icon icon="favorite"></iron-icon><span><code>&lt;datatable-card&gt;</code> full impl.</span>
+					</paper-item>
+					<paper-item data-url="docs/docs.html?styling" data-keywords='["docs", "theming", "styling", "css", "variables", "mixins"]'>
+						<iron-icon icon="book"></iron-icon>Styling</span>
+					</paper-item>
+					<paper-item data-url="demo/miscellaneous/theming.html" class="indent" data-keywords='["demo", "theming", "styling", "css", "variables", "mixins"]'>
+						<iron-icon icon="explore"></iron-icon><span>Theming options</span>
+					</paper-item>
+					<paper-item data-url="docs/docs.html?events" data-keywords='["docs", "events", "event"]'>
+						<iron-icon icon="book"></iron-icon>Events</span>
+					</paper-item>
+					<paper-item data-url="demo/miscellaneous/events.html" class="indent" data-keywords='["demo", "events", "event"]'>
+						<iron-icon icon="explore"></iron-icon><span>Event explorer</span>
+					</paper-item>
+
+					<hr style="border-bottom-color:rgba(240,240,240);border-top:0px;" data-keywords='[""]'>
+
+					<paper-submenu id="submenu" data-keywords$="{{allSubKeywords}}">
+						<paper-item class="menu-trigger">
+							<iron-icon icon="menu"></iron-icon><span>Miscellaneous demo's</span>
+						</paper-item>
+						<paper-menu class="menu-content" selected="{{currentUrl}}" attr-for-selected="data-url" on-iron-activate="navigate">
+							<paper-item data-url="demo/paper-datatable/bindings.html" data-keywords='["data binding", "binding", "selected", "selectedItem", "editable", "demo", "item", "value"]'>
+								<iron-icon icon="explore"></iron-icon><span>The magic of data bindings</span>
+							</paper-item>
+							<paper-item data-url="demo/paper-datatable/sorting.html" data-keywords='["sorting", "sortable", "demo"]'>
+								<iron-icon icon="explore"></iron-icon><span>Sorting & Type system</span>
+							</paper-item>
+							<paper-item data-url="demo/paper-datatable/resize-behavior.html" data-keywords='["resize", "demo"]'>
+								<iron-icon icon="explore"></iron-icon><span>Resize behaviors</span>
+							</paper-item>
+							<paper-item data-url="demo/miscellaneous/light.html" data-keywords='["table", "css", "light", "lightweight"]'>
+								<iron-icon icon="explore"></iron-icon><span>CSS only MD <span><code>&lt;table&gt;</code></span>
+							</paper-item>
+							<paper-item data-url="demo/paper-datatable/dynamic-columns.html" data-keywords='["adding", "removing", "columns", "demo"]'>
+								<iron-icon icon="build"></iron-icon><span>Dynamic columns</span>
+							</paper-item>
+							<paper-item data-url="demo/paper-datatable/filter.html" data-keywords='["filter", "demo", "search"]'>
+								<iron-icon icon="build"></iron-icon><span>Simple filter</span>
+							</paper-item>
+							<paper-item data-url="demo/paper-datatable/playground.html" data-keywords='["data binding", "binding", "editable", "demo", "item", "value"]'>
+								<iron-icon icon="build"></iron-icon><span>Complex <code>&lt;datatable&gt;</code> element</span>
+							</paper-item>
+							<paper-item data-url="demo/paper-datatable-card/playground.html" data-keywords='["editable", "demo", "card", "pagination", "datasource", "data-source", "data source"]'>
+								<iron-icon icon="build"></iron-icon><span><code>&lt;datatable-card&gt;</code> element</span>
+							</paper-item>
+							<paper-item data-url="demo/miscellaneous/icons.html" data-keywords='["icons"]'>
+								<iron-icon icon="build"></iron-icon><span>Icons</span>
+							</paper-item>
+						</paper-menu>
+					</paper-submenu>
+					<hr style="border-bottom-color:rgba(240,240,240);border-top:0px;" data-keywords='[""]'>
+					<paper-item data-url="docs/api.html?datatable" data-keywords='["api", "reference", "datatable", "columns", "editable", "column", "filter"]'>
+						<iron-icon icon="book"></iron-icon><span><code>&lt;datatable&gt;</code> API</span>
+					</paper-item>
+					<paper-item data-url="docs/api.html?datatable-column" data-keywords='["api", "reference", "column", "columns", "editable", "styling", "style", "dialog", "edit", "icon"]'>
+						<iron-icon icon="book"></iron-icon><span><code>&lt;datatable-column&gt;</code> API</span>
+					</paper-item>
+					<paper-item data-url="docs/api.html?datatable-card" data-keywords='["api", "reference", "card", "pagination", "search", "data source", "data-source", "data", "source", "page", "selection"]'>
+						<iron-icon icon="book"></iron-icon><span><code>&lt;datatable-card&gt;</code> API</span>
+					</paper-item>
+				</paper-menu>
+				<div id="noresults">Sorry, no results</div>
+			</paper-header-panel>
+			<!--
+			<div main>
+				<div id="content">
+					<content></content>
+				</div>
+			</div>
+			-->
+			<paper-header-panel main>
+				<paper-toolbar>
+					<div class="title small">[[title]]</div>
+					<div class="search">
+						<paper-input value="{{searchTerm}}" no-label-float autofocus autosave="paper-datatable">
+							<iron-icon icon="search" prefix style="padding-right: 0px"></iron-icon>
+						</paper-input>
+					</div>
+				</paper-toolbar>
+				<div id="content">
+					<content></content>
+				</div>
+			</paper-header-panel>
+		</paper-drawer-panel>
+	</template>
+	<script>
+		Polymer({
+			is: 'demo-menu',
+			properties: {
+				currentUrl: {
+					type: String,
+					value: function(){
+						return location.href.replace(this.resolveUrl('..'),'');// + (location.search.length ? '?' + location.search.replace('?','') : '');
+					}
+				},
+				searchTerm: {
+					type: String,
+					value: '',
+					observer: 'search'
+				}
+			},
+			ready: function(){
+				var items = Polymer.dom(this.$.submenu).querySelectorAll('[data-keywords]').reduce(function(prev, cur){
+					return prev.concat(JSON.parse(cur.dataset.keywords));
+				}, []);
+				this.allSubKeywords = JSON.stringify(items);
+				this.title = document.title;
+				document.title += ' - <paper-datatable>';
+
+				var link = document.createElement('link');
+				link.type = 'image/x-icon';
+				link.rel = 'shortcut icon';
+				link.href = this.resolveUrl('/images/icon.png');
+				document.getElementsByTagName('head')[0].appendChild(link);
+			},
+			navigate: function(event, item){
+				if(item.selected){
+					location.href = this.resolveUrl('../'+item.selected);
+				}
+			},
+			search: function(){
+
+				this.$.noresults.setAttribute("hidden", true);
+
+				var possibleResults = Polymer.dom(this.root).querySelectorAll('[data-keywords]');
+
+				var results = possibleResults.filter(function(possibleResult){
+					var keywords = JSON.parse(possibleResult.dataset.keywords);
+					return keywords.some(function(keyword){
+						return keyword.indexOf(this.searchTerm) > -1;
+					}.bind(this));
+				}.bind(this));
+
+				possibleResults.forEach(function(possibleResult){
+					possibleResult.setAttribute('hidden', true);
+					possibleResult.classList.remove('unindent');
+				});
+
+				results.forEach(function(result){
+					result.removeAttribute('hidden');
+					if(this.searchTerm.length > 0) {
+						result.classList.add('unindent');
+					}
+				}.bind(this));
+
+				this.$.submenu.opened = true;
+				if(this.searchTerm.length > 0){
+					if(results.length === 0){
+						this.$.noresults.removeAttribute("hidden");
+					}
+				}else{
+					//Polymer.dom(this.$.submenu).querySelector("paper-menu").selectedItem doesn't work due to asyncness issues :'(
+					this.$.submenu.opened = Polymer.dom(this.$.submenu).querySelectorAll('paper-menu paper-item').some(function(submenuItem){
+						return submenuItem.dataset.url == this.currentUrl;
+					}.bind(this));
+				}
+
+			}
+		});
+	</script>
+</dom-module>

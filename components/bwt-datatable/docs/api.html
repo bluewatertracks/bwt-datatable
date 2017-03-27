@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+	<head>
+
+		<title>API Reference</title>
+
+		<script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+		<link rel="import" href="../../polymer/polymer.html">
+		<link rel="import" href="../../paper-card/paper-card.html">
+		<link rel="import" href="../bwt-datatable.html">
+		<link rel="import" href="../documentation-menu.html">
+		<link rel="import" href="../../iron-component-page/iron-component-page.html">
+
+	</head>
+	<body>
+
+		<demo-menu>
+			<iron-component-page id="ironComponentPage" catalog></iron-component-page>
+		</demo-menu>
+
+		<script>
+			var element = location.search.replace('?', '');
+			var icp = document.getElementById('ironComponentPage');
+			icp.setAttribute('active', 'bwt-'+element);
+			icp.setAttribute('src', '../bwt-'+element+'.html');
+		</script>
+
+	</body>
+</html>

@@ -1,0 +1,157 @@
+<!doctype html>
+<html>
+	<head>
+
+		<title>Event explorer</title>
+
+		<script src="../../../webcomponentsjs/webcomponents-lite.js"></script>
+		<script>
+			window.Polymer = window.Polymer || {};
+			window.Polymer.dom = 'shadow';
+		</script>
+		<link rel="import" href="../../../polymer/polymer.html">
+		<link rel="import" href="../../../paper-card/paper-card.html">
+		<link rel="import" href="../../bwt-datatable-card.html">
+		<link rel="import" href="../../bwt-datatable.html">
+		<link rel="import" href="../../docs/documentation-menu.html">
+
+	</head>
+	<body>
+
+			<template is="dom-bind" id="app">
+				<custom-style>
+					<style is="custom-style">
+						h2 {
+							@apply --paper-font-title;
+							font-size: 18px !important;
+							font-variant: small-caps;
+						}
+						pre{
+							/* display:block;word-wrap: break-word;background:rgb(245,245,245);padding:5px; */
+							overflow: auto;
+							margin: 10px -15px;
+							padding: 15px;
+							background: rgb(250,250,250);
+							border-top: 1px solid rgb(230, 230, 230);
+							border-bottom: 1px solid rgb(230, 230, 230);
+						}
+						.noEvents{
+							margin: 10px;
+							text-align: center;
+							font-variant: small-caps;
+							color: rgba(0,0,0,.8);
+						}
+					</style>
+				</custom-style>
+				<paper-drawer-panel right-drawer>
+					<paper-header-panel drawer style="overflow-y:auto;overflow-x:hidden;" mode="waterfall">
+						<paper-toolbar><h2 style="margin-left:0px;" class="title">Event log</h2></paper-toolbar>
+
+						<div class="content fit" style="border-left: 1px solid rgb(230, 230, 230);">
+							<template is="dom-repeat" items="[[eventLog]]" sort="[[inverse]]">
+								<div style="padding:3px 15px;margin:10px 0px;padding-bottom:10px;border-bottom: 1px dotted rgb(230, 230, 230);">
+									<strong>[[item.type]]</strong> on <code>&lt;paper-[[item.on]]&gt;</code><br>
+									<pre>[[item.message]]</pre>
+									<i>[[item.error]]</i>
+								</div>
+							</template>
+							<div class="noEvents">
+								No events logged yet.
+							</div>
+						</div>
+					</paper-header-panel>
+					<demo-menu main>
+						<div style="padding:30px;">
+							<paper-datatable-card id="card" header="Dangerously delicious" number-of-items="49">
+								<div slot="toolbar-main">
+								</div>
+								<div slot="toolbar-select">
+									<paper-icon-button icon="delete" on-tap="delete"></paper-icon-button>
+								</div>
+								<paper-datatable id="datatable" data="{{data}}" selectable multi-selection>
+									<paper-datatable-column header="Dessert (100g serving)" property="title" type="String" style="width:99%;" sortable>
+									</paper-datatable-column>
+									<paper-datatable-column header="Calories" property="calories" type="Number" align="right" sortable tooltip="The total amount of food energy in the given serving size." cell-style="font-weight:bold;"></paper-datatable-column>
+									<paper-datatable-column header="Fat (g)" property="fat" type="Number" align="right" format-value="[[toFixedOne]]" sortable tooltip="The total amount of fat in the given serving size."></paper-datatable-column>
+								</paper-datatable>
+							</paper-datatable-card>
+							<p>
+								Note: This demo attempts to showcase as many events as possible. It should be understood however that a single demo can not show all events as some
+								events are mutually exclusive.
+							</p>
+						</div>
+					</demo-menu>
+				</paper-drawer-panel>
+			</template>
+
+
+		<script>
+			var app = document.querySelector('#app');
+			app.data = [
+				{id: 0, title: 'Frozen yogurt', calories: 159, fat: 6},
+				{id: 1, title: 'Ice cream sandwich', calories: 237, fat: 9},
+				{id: 2, title: 'Eclair', calories: 262, fat: 16},
+				{id: 3, title: 'Cupcake', calories: 305, fat: 3.7},
+				{id: 4, title: 'Gingerbread', calories: 356, fat: 16},
+				{id: 5, title: 'Jelly bean', calories: 373, fat: 0},
+				{id: 6, title: 'Lollipop', calories: 392, fat: 0.2},
+				{id: 7, title: 'Honeycomb', calories: 408, fat: 3.2}
+			];
+			app.toFixedOne = function(value){
+				return value.toFixed(1);
+			};
+			app.toPercentage = function(value){
+				return Math.round(value * 10000)/100 + '%';
+			};
+
+			app.inverse = function(a, b){
+				return a.timestamp < b.timestamp ? 1 : -1;
+			};
+
+			app.eventLog = [];
+			var log = function(element, ev){
+				console.info(ev.type, ev.detail);
+				try{
+					var message = JSON.stringify(ev.detail);
+				}catch(e){
+					var error = 'See console for details';
+					var message = {};
+					Object.keys(ev.detail).forEach(function(key){
+						try{
+							JSON.stringify(ev.detail[key]);
+							message[key] = ev.detail[key];
+						}catch(e){
+							message[key] = '...';
+						}
+					});
+					message = JSON.stringify(message, null, ' ');
+				}
+				app.push('eventLog', {
+					type: ev.type,
+					message: message,
+					error: error,
+					timestamp: new Date(),
+					on: element
+				});
+				if(app.eventLog.length > 14){
+					app.splice('eventLog', 0, 1);
+				}
+			};
+			document.addEventListener('WebComponentsReady', function(ev){
+				app.$.card.addEventListener('page-changed', log.bind(app, 'datatable-card'));
+				app.$.card.addEventListener('page-size-changed', log.bind(app, 'datatable-card'));
+				app.$.datatable.addEventListener('sort', log.bind(app, 'datatable'));
+				app.$.datatable.addEventListener('selection-changed', log.bind(app, 'datatable'));
+				app.$.datatable.addEventListener('row-tap', log.bind(app, 'datatable'));
+				app.$.datatable.addEventListener('cell-tap', log.bind(app, 'datatable'));
+				app.$.datatable.addEventListener('toggle-all', log.bind(app, 'datatable'));
+				var columns = document.querySelectorAll('paper-datatable-column');
+				for(var i=0;i<columns.length;i++){
+					columns[i].addEventListener('cell-tap', log.bind(app, 'datatable-column'));
+				}
+			});
+
+		</script>
+
+	</body>
+</html>
