@@ -41,6 +41,12 @@ If you already used selection toolbar in `paper-datatable-card` you need to add 
   <img src="https://github.com/bluewatertracks/bwt-datatable/blob/master/images/bwt-datatable-mobile.png" alt="bwt-datatable mobile view"/>
 </p>
 
+- Table and/or column header can be fixed to the top of the page for better usability when you have very big amount of data in table
+
+<p align="center">
+  <img src="https://github.com/bluewatertracks/bwt-datatable/blob/master/images/header-fixed.gif" alt="bwt-datatable fixed header"/>
+</p>
+
 We also tried to add additional functionality and fix some of the bugs in paper-datatable and also merge the following pull requests for ``paper-datatable``
 - Fix issue with null values inside paper-column [pull request #113](https://github.com/David-Mulder/paper-datatable/pull/113)
 - Change es6 to es5 code to support some of the older browsers [request #51](https://github.com/David-Mulder/paper-datatable/pull/51) and [request #106](https://github.com/David-Mulder/paper-datatable/pull/106)
