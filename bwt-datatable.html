@@ -568,11 +568,11 @@
 					/**
 					 * Fix column header to the top of the page on scroll
 					 *
-					 * @attribute fixedColumnHeader
+					 * @attribute headerFixed
 					 * @type Boolean
 					 * @default false
 					 */
-					сolumnHeaderFixed: {
+					headerFixed: {
 						type: Boolean,
 						reflectToAttribute: true,
 						value: false
@@ -689,7 +689,7 @@
 							var cells = Polymer.dom(row).querySelectorAll('.bound-cell');
 							var self = this;
 							cells.forEach(function(cell, index) {
-
+						
 								if(!cell.dataColumn){
 									console.log(cell);
 								}
@@ -952,7 +952,7 @@
 				 */
 				sort: function(column){
 					this.async(function(){
-
+						
 						var triggeredEvent = this.fire('sort', {sort: {
 							property: column.property,
 							direction: column.sortDirection
@@ -1181,7 +1181,7 @@
 				 * Set scroll target and coordinates to top
 				 */
 				_resizeHandler: function() {
-					if (this.сolumnHeaderFixed && !this._theadDistanseToTop) {
+					if (this.headerFixed && !this._theadDistanseToTop) {
 						var thead = Polymer.dom(this.root).querySelector('thead');
 						var parentNodeName = this.parentNode.nodeName;
 						if (parentNodeName.toLowerCase() === 'paper-datatable-card' && this.parentNode.headerFixed) {
