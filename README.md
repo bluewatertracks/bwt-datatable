@@ -41,7 +41,7 @@ If you already used selection toolbar in `paper-datatable-card` you need to add 
   <img src="https://github.com/bluewatertracks/bwt-datatable/blob/master/images/bwt-datatable-mobile.png" alt="bwt-datatable mobile view"/>
 </p>
 
-- Table and/or column header can be fixed to the top of the page for better usability when you have very big amount of data in table
+- Table and/or column header can be fixed to the top of the page for better usability when you have very big amount of data in table. More info can be found [here](https://bluewatertracks.github.io/bwt-datatable/components/bwt-datatable/docs/docs.html?getting-started#fixed-header)
 
 <p align="center">
   <img src="https://github.com/bluewatertracks/bwt-datatable/blob/master/images/header-fixed.gif" alt="bwt-datatable fixed header"/>
