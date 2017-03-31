@@ -1164,14 +1164,13 @@
 							});
 							if (this._headerHeight) {
 								tableHead.style.top = this._headerHeight + "px";
-								this.$.container.style.marginTop = this._theadDistanseToTop + this._headerHeight - 5 +"px";
-							} else {
-								this.$.container.style.marginTop = tableHead.offsetHeight + "px";
-							}
+							} 
+							this.$.container.style.marginTop = tableHead.offsetHeight + "px";
 							tableHead.style.width = headerWidth;
 							tableHead.classList.add("fixedToTop");
 						} else if (this._scrollTop < this._theadDistanseToTop && tableHead.classList.contains("fixedToTop")) {
 							tableHead.style.width = "auto";
+							tableHead.style.top = 0;
 							this.$.container.style.marginTop = 0;
 							tableHead.classList.remove("fixedToTop");
 						}
