@@ -321,16 +321,17 @@
 				 * Scroll listener from IronScrollTargetBehavior
 				 */
 				_scrollHandler: function () {
-					var paperDatatable = Polymer.dom(this).querySelector("#datatableElement");
+					var paperDatatable = Polymer.dom(this).querySelector("paper-datatable");
 					var header = Polymer.dom(this.root).querySelector('#topBlock');
 					var headerStyles = getComputedStyle(header);
 					if (this._scrollTop > this._headerDistanseToTop && !header.classList.contains("fixedToTop")) {
 						header.style.width = headerStyles.width;
-						paperDatatable.style.marginTop = this._headerDistanseToTop+"px";
+						paperDatatable.style.paddingTop = header.offsetHeight+"px";
 						header.classList.add("fixedToTop");
 					} else if (this._scrollTop < this._headerDistanseToTop && header.classList.contains("fixedToTop")) {
 						header.style.width = "auto";
-						paperDatatable.style.marginTop = 0;
+						header.style.top = 0;
+						paperDatatable.style.paddingTop = 0;
 						header.classList.remove("fixedToTop");
 					}
 				},
