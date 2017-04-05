@@ -1150,7 +1150,7 @@
 				 * Scroll listener from IronScrollTargetBehavior with logic
 				 */
 				_scrollHandler: function (e) {
-					if (!this.mobileView) {
+					if (!this.mobileView && this.headerFixed) {
 						var tableHead = Polymer.dom(this.root).querySelector('thead');
 						if (this._scrollTop > this._theadDistanseToTop && !tableHead.classList.contains("fixedToTop")) {
 							var headerWidth = getComputedStyle(tableHead).width;
