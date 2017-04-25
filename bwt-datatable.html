@@ -1153,11 +1153,13 @@
 					if (!this.mobileView && this.headerFixed) {
 						var tableHead = Polymer.dom(this.root).querySelector('thead');
 						if (this._scrollTop > this._theadDistanseToTop && !tableHead.classList.contains("fixedToTop")) {
+							/*Get first table row*/
+							var firstRow = Polymer.dom(this.root).querySelector('tbody tr');	
+							var firstRowCells = Polymer.dom(firstRow).querySelectorAll('.bound-cell');
+							if (firstRowCells.length === 0) return;
 							var headerWidth = getComputedStyle(tableHead).width;
 							var tableHeadRow = tableHead.children[0];
 							var columns = Polymer.dom(tableHeadRow).querySelectorAll('.column');
-							var firstRow = Polymer.dom(this.root).querySelector('tbody tr');	
-							var firstRowCells = Polymer.dom(firstRow).querySelectorAll('.bound-cell');
 							/*Set right width for each column header*/
 							Array.prototype.forEach.call(columns, function(item, index){
 								item.style.width = firstRowCells[index].style.width = item.offsetWidth + "px";
