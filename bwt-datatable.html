@@ -685,7 +685,8 @@
 							var row = rows[rowI];
 							//find the data that belongs with the row
 							var rowData = this.get(['data',row.dataset.key]);
-
+							//prevent errors if row empty
+							if (!rowData) return;
 							var cells = Polymer.dom(row).querySelectorAll('.bound-cell');
 							var self = this;
 							cells.forEach(function(cell, index) {
