@@ -1,36 +1,57 @@
-# Bwt-datatable
+[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/bluewatertracks/bwt-datatable)
 
-A [material design implementation of a data table](https://www.google.com/design/spec/components/data-tables.html). Let's call this a pretty solid beta.
+# bwt-datatable
 
- - Documentation can be found [here](http://david-mulder.github.io/paper-datatable/components/paper-datatable/docs/docs.html?installation)
- - Demos can be found [here](http://david-mulder.github.io/paper-datatable/components/paper-datatable/demo/paper-datatable-card/full-implementation.html)
+### About
+We greatly appreciated the work of [David Mulder's paper-datatable](https://github.com/David-Mulder/paper-datatable) but since it hasn't been active for a while and we at Blue Water Tracks really wanted to keep pushing the work done so far, we decided to inherit the project and let it evolve but combining the pull requests on the project along with a couple of fixes and features that we came up with. Since many people already use the `paper-datatable` component, we created this component to make sure that it is compatible with the `paper-datatable` component. You can easily use this element only changing the path to `paper-datatable` import element like below. 
+We hope that David takes what we have done with`bwt-datatable` and merges it into the original `paper-datatable`. 
 
-[![http://david-mulder.github.io/paper-datatable/components/paper-datatable/docs/screenshot.png](http://david-mulder.github.io/paper-datatable/components/paper-datatable/images/screenshot.png)](http://david-mulder.github.io/paper-datatable/components/paper-datatable/demo/paper-datatable-card/full-implementation.html)
+### Before
+	<link rel="import" href="/bower_components/paper-datatable/paper-datatable.html">
 
-## Features
+### Now
+	<link rel="import" href="/bower_components/bwt-datatable/bwt-datatable.html">
 
- - Custom `<template>`'ing of every cell.
+If you already used selection toolbar in `paper-datatable-card` you need to add slot property to it like this: 
 
-		<bwt-datatable-column header="Page" property="page">
-			<template>
-				<span>[[value]]</span>
-			</template>
-		</bwt-datatable-column>
+    <div slot="toolbar-select-single">
+      <paper-icon-button icon="info" on-tap="info"></paper-icon-button>
+    </div>
+    <div slot="toolbar-select">
+      <paper-icon-button icon="delete" on-tap="delete"></paper-icon-button>
+    </div>
 
- - Two way binding directly into the `Bwt-datatable`
+ - Original `paper-datatable` documentation and demos can be found [here](http://david-mulder.github.io/paper-datatable/components/paper-datatable/docs/docs.html?installation)
+ - Our documentation and demos can be found [here](https://bluewatertracks.github.io/bwt-datatable/components/bwt-datatable/docs/docs.html?installation)
 
-		<bwt-datatable-column header="Page" property="page">
-			<template>
-				<paper-input value="{{value}}">
-			</template>
-		</bwt-datatable-column>
- - Extremely simple to set up ([simple demo](http://david-mulder.github.io/paper-datatable/components/paper-datatable/demo/paper-datatable))
- - Pretty good styling support ([demo](http://david-mulder.github.io/paper-datatable/components/paper-datatable/demo/miscellaneous/theming.html))
- - Pagination and external data sources ([demo](http://david-mulder.github.io/paper-datatable/components/paper-datatable/demo/paper-datatable-card))
- - Supporting both inline editing and in Material Design dialogs.
- - ~~Add new items on the fly ([unpolished demo](http://david-mulder.github.io/paper-datatable/components/paper-datatable/demo/paper-datatable-card))~~
- - [Delightful details](https://www.google.com/design/spec/animation/delightful-details.html) in sorting and partial selections. If you have ideas for more: let me know.
- - Usable on mobile. Only tested on Chrome for Android, and it's not great, but it doesn't overflow or overlap anything.
+
+[![datatable full implementation](http://david-mulder.github.io/paper-datatable/components/paper-datatable/docs/screenshot.png)](http://david-mulder.github.io/paper-datatable/components/paper-datatable/demo/paper-datatable-card/full-implementation.html)
+
+## New changes
+
+ - Column header update dynamically according to [paper-datatable pull request #78](https://github.com/David-Mulder/paper-datatable/pull/78)
+ - Truly responsive; ability to use `bwt-datatable` on mobile devices by easily setting the  `responseWidth` property to the desired breakpoint resolution.
+
+ 		<paper-datatable data="{{data}}" selectable multi-selection response-width="767px">
+			<paper-datatable-column header="Title" property="title" sortable editable>
+			</paper-datatable-column>
+		</paper-datatable>
+
+<p align="center">
+  <img src="https://github.com/bluewatertracks/bwt-datatable/blob/master/images/bwt-datatable-mobile.png" alt="bwt-datatable mobile view"/>
+</p>
+
+- Table and/or column header can be fixed to the top of the page for better usability when you have very big amount of data in table. More info can be found [here](https://bluewatertracks.github.io/bwt-datatable/components/bwt-datatable/docs/docs.html?getting-started#fixed-header)
+
+<p align="center">
+  <img src="https://github.com/bluewatertracks/bwt-datatable/blob/master/images/header-fixed.gif" alt="bwt-datatable fixed header"/>
+</p>
+
+We also tried to add additional functionality and fix some of the bugs in paper-datatable and also merge the following pull requests for ``paper-datatable``
+- Fix issue with null values inside paper-column [pull request #113](https://github.com/David-Mulder/paper-datatable/pull/113)
+- Change es6 to es5 code to support some of the older browsers [request #51](https://github.com/David-Mulder/paper-datatable/pull/51) and [request #106](https://github.com/David-Mulder/paper-datatable/pull/106)
+ (Hopefully when Polymer 2 ships with transpiling, we can rewrite the code into proper ES6 code)
+- Use textContent instead of innerHTML inside elements [request #108](https://github.com/David-Mulder/paper-datatable/pull/108)
 
 ## Installation
 
@@ -42,7 +63,21 @@ The element can be installed using bower using
 
 ## Usage
 
-Check out the [getting started guide](http://david-mulder.github.io/paper-datatable/components/paper-datatable/docs/docs.html?getting-started).
+Check out the [getting started guide](https://bluewatertracks.github.io/bwt-datatable/components/bwt-datatable/docs/docs.html?getting-started).
+
+## Contributors
+
+| | | |
+|----------|:-------------:|------:|
+| [![@bhargavkonkathi](https://avatars2.githubusercontent.com/u/24550636?v=3&u=ddd3f64f6888100d6eebd283768b61dabc6f495d&s=80)](https://github.com/bhargavkonkathi) |  Programming is like playing chess; each line is as important as each step to determine what kind of player or programmer you are. When ever not playing chess, it's Javascript, Java and mongodb.
+| [![@maisnamraju](https://avatars2.githubusercontent.com/u/2786378?v=3&s=80)](https://github.com/maisnamraju) |  Javascript Ninja; saving the world with one line of javascript at a time. ;) 
+| [![@dhrytsenko](https://avatars0.githubusercontent.com/u/12988041?v=3&s=80)](https://github.com/dhrytsenko) | What is my opinion about JavaScript, NodeJS, MongoDB and Polymer? Building blocks to the future! Allowing me to help make the world a better place.
+
+
+
+## Pull Requests are welcome
+
+If you feel that you have something that could improve the component, please feel free to send a PR or create an issue with an explaination.
 
 ## License
 
@@ -58,16 +93,3 @@ GNU General Public License for more details.
 This project uses a fair share license construction, if you wish to use this project commercially you will likely want to
 continue reading [here](https://github.com/David-Mulder/fair-share-license/blob/master/CONTRIBUTING.md). If you wish to
 donate please contact me personally.
-
-## Contributing
-
-I absolutely HATE rejecting pull requests, so let me just outline some advice:
-
- 1. If you are planning on doing anything except a quick fix, it's a wise idea to open an issue first with your plans. That
-    way we can talk it through and check whether it might not already be easily possible and whether it fits with the
-    spirit of the component (I try to keep everything pretty declarative, generic and Polymer-y).
- 2. You absolutely *must* make every feature you work on at least a separate commit and ideally a separate pull request.
-    This both makes it clearer to me what is what, makes it easier to pull only the relevant parts and prevents situations
-    where I can't give credits to the good parts, because of the bad parts.
- 3. You have to explicitly agree in your pull request to the terms described in the
-    [fair share license construction](https://github.com/David-Mulder/fair-share-license/blob/master/CONTRIBUTING.md).

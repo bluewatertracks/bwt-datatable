@@ -4,15 +4,15 @@
 
 		<title>Documentation</title>
 
-		<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-		<link rel="import" href="/bower_components/polymer/polymer.html">
-		<link rel="import" href="/bower_components/paper-card/paper-card.html">
-		<link rel="import" href="/bower_components/marked-element/marked-element.html">
-		<link rel="import" href="/bower_components/prism-element/prism-highlighter.html">
-		<link rel="import" href="/bwt-datatable-card.html">
-		<link rel="import" href="/bwt-datatable.html">
-		<link rel="import" href="./documentation-menu.html">
-		<link rel="import" href="/bwt-datatable-styles.html">
+		<script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+		<link rel="import" href="../../polymer/polymer.html">
+		<link rel="import" href="../../paper-card/paper-card.html">
+		<link rel="import" href="../../marked-element/marked-element.html">
+		<link rel="import" href="../../prism-element/prism-highlighter.html">
+		<link rel="import" href="../bwt-datatable-card.html">
+		<link rel="import" href="../bwt-datatable.html">
+		<link rel="import" href="documentation-menu.html">
+		<link rel="import" href="../bwt-datatable-styles.html">
 
 
 	</head>
@@ -147,7 +147,7 @@
 			return hash.split('-').map((word) => normalWords.indexOf(word) == -1 ? word.substr(0,1).toUpperCase() + word.substr(1, word.length -1) : word).join(' ');
 		}
 		document.title = hashToTitle(page);
-		httpRequest.open('GET', '/docs/'+page+'.md');
+		httpRequest.open('GET', page+'.md');
 		httpRequest.send();
 
 

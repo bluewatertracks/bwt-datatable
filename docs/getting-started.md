@@ -78,6 +78,26 @@ There is a `responseWidth` property for `<paper-datatable>` which define a resol
 
 Default value for `responseWidth` property is `767px`. You can change it to desired value for your purpose.
 
+Fixed header
+===
+There is a `headerFixed` property for `<paper-datatable>` and `<paper-datatable-cart>` which add ability to fix table and/or column header to the top of the page.
+	
+	<paper-datatable-card header="Users" data-source="{{data}}" id-property="id" selected-ids="{{selectedIds}}" header-fixed>
+		<paper-datatable  selectable multi-selection header-fixed>
+			<paper-datatable-column header="Title" property="title" sortable editable>
+				<template>
+					<paper-input value="{{value}}">
+				</template>
+			</paper-datatable-column>
+		</paper-datatable>
+	</paper-datatable-card>
+
+If you want to use datatable inside some custom element like `app-header` with its own `scrollTarget` and scroll event instead of native `document` you must to define a right `scrollTarget` for your datatable.
+
+	this.$.datatableCard.scrollTarget = document.querySelector('some-selector').scrollTarget;
+
+Default value for `headerFixed` property is `false`. You can change it to fix a header if you have a big amount of data in table for better usability.
+
 Polymer Keys and Selections
 ===
 You might encounter keys that look like `#1` whilst working with `<paper-datatable>` these keys are Polymer's internal
