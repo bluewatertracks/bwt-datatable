@@ -33,14 +33,14 @@
     "whenever.js": "~0.0.1",
     "iron-form": "PolymerElements/iron-form#~1.0.12",
     "iron-media-query": "PolymerElements/iron-media-query#^1.0.8",
-    "iron-scroll-target-behavior": "PolymerElements/iron-scroll-target-behavior#^1.0.0"
+    "iron-scroll-target-behavior": "PolymerElements/iron-scroll-target-behavior#^1.0.0",
+    "paper-listbox": "^2.0.0"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
     "paper-card": "PolymerElements/paper-card#~1.0.7",
     "web-component-tester": "*",
     "paper-progress": "PolymerElements/paper-progress#~1.0.7",
-    "paper-menu": "PolymerElements/paper-menu#~1.1.1",
     "paper-dropdown-menu": "PolymerElements/paper-dropdown-menu#~1.1.0",
     "paper-input": "PolymerElements/paper-input#~1.0.18",
     "paper-header-panel": "^1.1.7",
