@@ -4,7 +4,7 @@
 
 <link rel="import" href="../paper-material/paper-material.html">
 <link rel="import" href="../paper-dropdown-menu/paper-dropdown-menu.html">
-<link rel="import" href="../paper-menu/paper-menu.html">
+<link rel="import" href="../paper-listbox/paper-listbox.html">
 <link rel="import" href="../paper-item/paper-item.html">
 <link rel="import" href="../paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../paper-progress/paper-progress.html">
@@ -138,11 +138,11 @@
 				<div class="flex"></div>
 				<span>Rows per page:</span>
 				<paper-dropdown-menu no-label-float style="width: 68px;">
-					<paper-menu class="dropdown-content" selected="{{pageSize}}" attr-for-selected="value">
+					<paper-listbox slot="dropdown-content" selected="{{pageSize}}" attr-for-selected="value">
 						<template is="dom-repeat" items="[[pageSizeOptions]]">
 							<paper-item value="[[item]]">[[item]]</paper-item>
 						</template>
-					</paper-menu>
+					</paper-listbox>
 				</paper-dropdown-menu>
 				<span>
 					<span>[[_getRangeStart(page, pageSize)]]</span>-<span>[[_getRangeEnd(page, pageSize, numberOfItems)]]</span> of&nbsp;<span>[[numberOfItems]]</span>
