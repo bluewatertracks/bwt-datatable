@@ -1,4 +1,5 @@
 <script src="../whenever.js/whenever.js"></script>
+<link rel="import" href="../polymer/lib/legacy/templatizer-behavior.html">
 <dom-module id="paper-datatable-column">
 	<template>
 		<style>
@@ -7,11 +8,9 @@
 			}
 		</style>
 		<template id="arrayTemplate">
-			<!--<dom-repeat items="[[value]]" as="arrayItem">-->
-				<template is="dom-repeat" items="[[value]]" as="arrayItem">
-					<div class="array-item">[[_getArrayItemLabel(column, arrayItem)]]</div>
-				</template>
-			<!--</dom-repeat>-->
+			<template is="dom-repeat" items="[[value]]" as="arrayItem">
+				<div class="array-item">[[_getArrayItemLabel(column, arrayItem)]]</div>
+			</template>
 		</template>
 		<template id="editableInputTemplate">
 			<paper-input type="[[_getCorrectTypeForInput(column.type)]]" value="{{value}}" step="any" no-label-float></paper-input>
@@ -281,7 +280,7 @@ This element is used inside of `<paper-datatable>` to declare the columns to be 
 						this._instanceProps.item = true;
 						this._instanceProps.value = true;
 						this._instanceProps.column = true;
-						//Polymer.Templatizer.prototype.templatize(template, {instanceProps: this.instanceProps});
+						
 						this.templatize(template);
 
 						this.template = true;
@@ -406,22 +405,6 @@ This element is used inside of `<paper-datatable>` to declare the columns to be 
 					if(this.beenAttached.state.ready){
 						this.parentNodeRef._queryAndSetColumns();
 					}
-				},
-				/*
-				_getRootDataHost: function(){
-					return this;
-				},*/
-				_registerEvilFunctions: function(){
-					if(typeof this.dataHost === 'undefined' || typeof this.parentNodeRef.dataHost !== 'undefined') {
-						this.dataHost = this.parentNodeRef.__dataHost;
-					}else if(typeof this.dataHost === 'undefined'){
-						console.warn('A hack is used to support some functionality of the `[editable]` and [`array-display-prop`] attribute. ' +
-								'This however requires the element to be located in a polymer element or `dom-bind`.')
-					}
-
-					//this.dataHost._pdt_getArrayItemLabel = this._getArrayItemLabel;
-					//this.dataHost._pdt_getCorrectTypeForInput = this._getCorrectTypeForInput;
-
 				},
 				_getArrayItemLabel: function(column, value){
 					return column.arrayDisplayProp ? value[column.arrayDisplayProp] : value;

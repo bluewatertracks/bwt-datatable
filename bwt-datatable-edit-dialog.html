@@ -33,8 +33,10 @@
 			</style>
 		</custom-style>
 		<paper-material id="material" elevation="1">
-			<iron-form id="form" on-iron-form-presubmit="dismiss">
-				<slot></slot>						
+			<iron-form id="form">
+				<form on-iron-form-presubmit="dismiss">
+					<slot></slot>						
+				</form>
 			</iron-form>
 		</paper-material>
 	</template>
