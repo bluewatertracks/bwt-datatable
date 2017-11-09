@@ -3,36 +3,37 @@
  it is written in a way that will allow this later to be added without rewriting the rest of the code and right now
  'emulates' the behaviour by having a fixed maximum of items.
  */
-var WeakCache = function(limit){
-	var values = [];
-	var keys = [];
-	return {
-		set: function (key, obj) {
-			var index = keys.indexOf(key);
-			if(index  > -1){
-				values[index] = obj;
-				values.splice(values.length, 0, values.splice(index, 1)[0]);
-				keys.splice(keys.length, 0, keys.splice(index, 1)[0]);
-			}else{
-				keys.push(key);
-				values.push(obj);
-				if(keys.length > limit){
-					keys.shift();
-					values.shift();
-				}
+class WeakCache {
+	constructor(limit) {
+		this.limit = limit;
+		this.values = [];
+		this.keys = [];
+	}
+	set (key, obj) {
+		var index = this.keys.indexOf(key);
+		if(index  > -1){
+			this.values[index] = obj;
+			this.values.splice(this.values.length, 0, this.values.splice(index, 1)[0]);
+			this.keys.splice(this.keys.length, 0, this.keys.splice(index, 1)[0]);
+		}else{
+			this.keys.push(key);
+			this.values.push(obj);
+			if(this.keys.length > this.limit){
+				this.keys.shift();
+				this.values.shift();
 			}
-		},
-		has: function(key){
-			return keys.indexOf(key) > -1;
-		},
-		get: function(key){
-			var index = keys.indexOf(key);
-			return values[index];
-		},
-		delete: function(key){
-			var index = keys.indexOf(key);
-			values.splice(index, 1);
-			keys.splice(index, 1);
 		}
+	}
+	has (key){
+		return this.keys.indexOf(key) > -1;
+	}
+	get (key){
+		var index = this.keys.indexOf(key);
+		return this.values[index];
+	}
+	delete (key){
+		var index = this.keys.indexOf(key);
+		this.values.splice(index, 1);
+		this.keys.splice(index, 1);
 	}
 }

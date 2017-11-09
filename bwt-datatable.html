@@ -634,7 +634,7 @@
 					var rowKeys = [];
 					this._dataKeyCollection = new CollectionHelpers(this.data);
 						this.data.forEach(function(row){
-							var key = this._dataKeyCollection.getKey(row);
+							var key = this._getKeyByItem(row);
 							if('filter' in this){
 								if(this.filter(row, key, this.data)){
 									rowKeys.push(key);
@@ -669,7 +669,6 @@
 					Array.prototype.forEach.call(cells, this._resetCell.bind(this));
 					this.$.rowRepeat.render();
 					var cellRepeatList = this.shadowRoot.querySelector('#cellRepeat');
-					console.log(cellRepeatList);
 					Array.prototype.forEach.call(cellRepeatList, function(cr) {return cr.render();});
 				},
 
@@ -687,7 +686,7 @@
 						for(var rowI=0; rowI<rows.length; rowI++){
 							var row = rows[rowI];
 							//find the data that belongs with the row
-							var rowData = this._dataKeyCollection.getItem(row.dataset.key);
+							var rowData = this.get(['data',rowI]);
 							//prevent errors if row empty
 							if (!rowData) return;
 							var cells = Polymer.dom(row).querySelectorAll('.bound-cell');
@@ -701,12 +700,11 @@
 								var isEmpty = cell.hasAttribute('data-empty');
 								var isWrongRow = cell.getAttribute('data-row-key') !== row.dataset.key;
 								var isWrongColumn = cell.dataColumn !== cell.dataBoundColumn;
-
-								if(isEmpty || isWrongRow || isWrongColumn){
+								
+								if(cell){
 									cell.removeAttribute('data-empty');
 									var prop = cell.dataColumn.property;
 									var data = rowData[prop];
-
 									cell.setAttribute('data-row-key', row.dataset.key);
 									cell.dataBoundColumn = cell.dataColumn;
 
@@ -828,12 +826,11 @@
 					if(this.multiSelection){
 						if(this.selectedKeys.indexOf(key) == -1){
 							this.push('selectedKeys', key);
-							if(notify) this._fireCustomEvent(this, "selection-changed", {selected: [key]});
 						}
 					}else{
 						this.set('selectedKey', key);
-						if(notify) this._fireCustomEvent(this, "selection-changed", {selected: [key]});
 					}
+					if(notify) this._fireCustomEvent(this, "selection-changed", {selected: [key]});
 				},
 
 				/**
@@ -849,11 +846,10 @@
 					if(this.multiSelection){
 						var i = this.selectedKeys.indexOf(key);
 						this.splice('selectedKeys', i, 1);
-						if(notify) this._fireCustomEvent(this, "selection-changed", {deselected: [key]});
 					}else{
-						if(notify) this._fireCustomEvent(this, "selection-changed", {deselected: [key]});
 						this.set('selectedKey', null);
 					}
+					if(notify) this._fireCustomEvent(this, "selection-changed", {deselected: [key]});
 				},
 				/**
 				 * Deselect all currently selected items. Ignore the `notify` parameter.
@@ -871,7 +867,7 @@
 				_allChecked: function(){
 					var allChecked = true;
 					this.data.forEach(function(item){
-						var key = this._dataKeyCollection.getKey(item);
+						var key = this._getKeyByItem(item);
 						if(this.selectedKeys.indexOf(key) == -1){
 							allChecked = false;
 						}
@@ -917,9 +913,6 @@
 
 				_toggleSelection: function(key){
 					if(this.selectable){
-						/*if(id == '__new__'){
-							return false;
-						}*/
 						if(this.multiSelection){
 							var checked = this.selectedKeys.indexOf(key) > -1;
 							if(checked){
@@ -947,7 +940,6 @@
 				},
 				/**
 				 * Wrapper for platform custom event emitter
-				 * element.
 				 */
 				_fireCustomEvent: function(context, eventName, eventBody, eventSettings) {
 					if (!eventBody) {
@@ -981,8 +973,9 @@
 						this._applySortedIndicatorsToDOM();
 						if(triggeredEvent){
 							this._internalSortEnabled = false;
+						} else {
+							this._internalSortEnabled = true;
 						}
-						this._internalSortEnabled = true;
 						this._internalSort(column);
 					});
 				},
@@ -1020,7 +1013,7 @@
 							var valB = this._getByKey(b)[column.property];
 							return column._sort(valA, valB);
 						}.bind(this));
-						this.set("_rowKeys", JSON.parse(JSON.stringify(this._rowKeys)));
+						this.set("_rowKeys", this._rowKeys);
 					}
 				},
 
