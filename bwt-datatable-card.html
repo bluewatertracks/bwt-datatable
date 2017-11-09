@@ -198,7 +198,8 @@
 					pageSize: {
 						type: Number,
 						value: 10,
-						notify: true
+						notify: true,
+						observer: "_pageSizeChanged"
 					},
 					/**
 					 * Possible number of items per page
@@ -315,7 +316,7 @@
 					'iron-resize': '_resizeHandler'
 				},
 				observers: [
-					'retrieveVisibleData(dataSource, pageSize, page, _datatable, _sortDirection, _sortProperty)',
+					'retrieveVisibleData(dataSource, page, _datatable, _sortDirection, _sortProperty)',
 					'_setNumberOfItems(dataSource.length)',
 					'_createCache(dataSource.queryForIds)'
 				],
@@ -347,6 +348,11 @@
 						var header = this.shadowRoot.querySelector('#topBlock');
 						this._headerDistanseToTop = header.getBoundingClientRect().top;
 					};
+				},
+				_pageSizeChanged: function() {
+					if (this.page > 1) {
+						this.firstPage();
+					}
 				},
 				_createCache: function(){
 					this._cacheUsed = true;
