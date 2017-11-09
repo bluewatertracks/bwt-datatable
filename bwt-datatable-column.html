@@ -1,3 +1,5 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../polymer/lib/legacy/templatizer-behavior.html">
 <script src="../whenever.js/whenever.js"></script>
 <dom-module id="paper-datatable-column">
 	<template>
@@ -8,11 +10,11 @@
 		</style>
 		<template id="arrayTemplate">
 			<template is="dom-repeat" items="[[value]]" as="arrayItem">
-				<div class="array-item">[[_pdt_getArrayItemLabel(column, arrayItem)]]</div>
+				<div class="array-item">[[_getArrayItemLabel(column, arrayItem)]]</div>
 			</template>
 		</template>
 		<template id="editableInputTemplate">
-			<paper-input type="[[_pdt_getCorrectTypeForInput(column.type)]]" value="{{value}}" step="any" no-label-float></paper-input>
+			<paper-input type="[[_getCorrectTypeForInput(column.type)]]" value="{{value}}" step="any" no-label-float></paper-input>
 		</template>
 		<template id="editableBooleanTemplate">
 			<paper-checkbox checked="{{value}}"></paper-checkbox>
@@ -262,8 +264,7 @@ This element is used inside of `<paper-datatable>` to declare the columns to be 
 					this.beenAttached = new Whenever();
 				},
 
-				ready: function() {
-
+				attached: function() {
 					var template = Polymer.dom(this).querySelector('template');
 					if(!template && this.type.toLowerCase() == 'array'){
 						var template = this.$.arrayTemplate;
@@ -280,7 +281,7 @@ This element is used inside of `<paper-datatable>` to declare the columns to be 
 						this._instanceProps.item = true;
 						this._instanceProps.value = true;
 						this._instanceProps.column = true;
-
+						
 						this.templatize(template);
 
 						this.template = true;
@@ -405,22 +406,6 @@ This element is used inside of `<paper-datatable>` to declare the columns to be 
 					if(this.beenAttached.state.ready){
 						this.parentNodeRef._queryAndSetColumns();
 					}
-				},
-				/*
-				_getRootDataHost: function(){
-					return this;
-				},*/
-				_registerEvilFunctions: function(){
-					if(typeof this.dataHost === 'undefined' || typeof this.parentNodeRef.dataHost !== 'undefined') {
-						this.dataHost = this.parentNodeRef.dataHost;
-					}else if(typeof this.dataHost === 'undefined'){
-						console.warn('A hack is used to support some functionality of the `[editable]` and [`array-display-prop`] attribute. ' +
-								'This however requires the element to be located in a polymer element or `dom-bind`.')
-					}
-
-					this.dataHost._pdt_getArrayItemLabel = this._getArrayItemLabel;
-					this.dataHost._pdt_getCorrectTypeForInput = this._getCorrectTypeForInput;
-
 				},
 				_getArrayItemLabel: function(column, value){
 					return column.arrayDisplayProp ? value[column.arrayDisplayProp] : value;

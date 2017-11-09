@@ -1,5 +1,4 @@
 <link rel="import" href="../polymer/polymer.html">
-
 <link rel="import" href="./bwt-datatable-column.html">
 <link rel="import" href="./bwt-datatable-edit-dialog.html">
 <link rel="import" href="./datatable-icons.html">
@@ -10,8 +9,8 @@
 <link rel="import" href="../iron-media-query/iron-media-query.html">
 <link rel="import" href="../iron-scroll-target-behavior/iron-scroll-target-behavior.html">
 
-<script src="weakCache.js"></script>
-
+<script src="src/weakCache.js"></script>
+<script src="src/collectionHelpers.js"></script>
 <dom-module id="paper-datatable">
 	<template>
 		<custom-style>
@@ -288,8 +287,8 @@
 					background: none; 
 				}
 
-				.mobileHeader {
-					font-weight: 500;
+				tr[mobile-view] td[mobile-view] div p.mobileHeader{
+					font-weight: bold;
 				}
 
 				.fixedToTop {
@@ -316,7 +315,7 @@
 								<template is="dom-if" if="[[multiSelection]]">
 									<div class="partialSelectionContainer">
 										<div class="partialSelection" data-checked$="[[_partialSelection]]"></div>
-										<paper-checkbox on-tap="toggleAll" checked="[[_allChecked(selectedKeys.splices, data.*)]]" style="position:absolute;left:0px;top:0px;"></paper-checkbox>
+										<paper-checkbox on-change="toggleAll" checked$="[[_allChecked(selectedKeys.splices, data.*)]]" style="position:absolute;left:0px;top:0px;"></paper-checkbox>
 									</div>
 								</template>
 							</th>
@@ -353,7 +352,7 @@
 									<td on-tap="_cellTapped" mobile-view$="[[mobileView]]">
 										<!-- a somewhat specific 'hack' for <paper-datatable-card> :/ -->
 										<!-- <template is="dom-if" if="{{!_isEqual(rowKey, '__new__')}}"> -->
-											<paper-checkbox checked="[[_isRowSelected(rowKey, selectedKeys.splices)]]" on-change="_setSelection"></paper-checkbox>
+											<paper-checkbox checked$="[[_isRowSelected(rowKey, selectedKeys.splices)]]" on-change="_setSelection"></paper-checkbox>
 										<!-- </template> -->
 									</td>
 								</template>
@@ -378,7 +377,7 @@
 								<template id="cellRepeat" is="dom-repeat" items="[[_columns]]" as="column" on-dom-change="_restructureData">
 									<td data-empty class="bound-cell" mobile-view$="[[mobileView]]" data-column="[[column]]" data-editable$="[[column.editable]]" data-edit-icon$="[[column.editIcon]]" on-tap="_cellTapped">
 										<div>
-											<p hidden$="[[!mobileView]]"></p>
+											<p style="font-weight: bold;" hidden$="[[!mobileView]]"></p>
 											<span></span>
 											<iron-icon icon="datatable:editable" class="editable"></iron-icon>
 										</div>
@@ -505,6 +504,9 @@
 					_rowKeys: {
 						type: Array
 					},
+					_currentlySortedColumn: {
+						type: Object
+					},
 					_cellInstances: {
 						type: Object
 					},
@@ -615,14 +617,14 @@
 						if(!column.beenAttached.state.ready){
 							column.parentNodeRef = self;
 							self.async(function(){
-								column._registerEvilFunctions();
 								column.beenAttached.ready();
 							});
 							column.index = index;
  							self.listen(column, 'header-changed', '_updateHeaderColumn');
 						}
 					});
-					this.set('_columns', columns.filter(function(column) {return !column.inactive}));
+					var inactiveColumns = columns.filter(function(column) {return !column.inactive});
+					this.set('_columns', inactiveColumns);
 					this.async(function(){
 						this._applySortedIndicatorsToDOM();
 					});
@@ -630,21 +632,20 @@
 
 				_setRowKeys: function(){
 					var rowKeys = [];
-					this._dataKeyCollection = Polymer.Collection.get(this.data);
-					this.data.forEach(function(row){
-						var key = this._dataKeyCollection.getKey(row);
-						if('filter' in this){
-							if(this.filter(row, key, this.data)){
+					this._dataKeyCollection = new CollectionHelpers(this.data);
+						this.data.forEach(function(row){
+							var key = this._getKeyByItem(row);
+							if('filter' in this){
+								if(this.filter(row, key, this.data)){
+									rowKeys.push(key);
+								}
+							}else{
 								rowKeys.push(key);
 							}
-						}else{
-							rowKeys.push(key);
-						}
-
-					}.bind(this));
+						}.bind(this));
 					this.set("_rowKeys", rowKeys);
 					//why again was this necessary?
-					this._internalSort(this.get('_currentlySortedColumn'));
+					this._internalSort(this._currentlySortedColumn);
 				},
 
 				/**
@@ -664,10 +665,11 @@
 				},
 
 				_reset: function(){
-					var cells = Polymer.dom(this.root).querySelectorAll('.bound-cell');
-					cells.forEach(this._resetCell.bind(this));
+					var cells = this.shadowRoot.querySelectorAll('.bound-cell');
+					Array.prototype.forEach.call(cells, this._resetCell.bind(this));
 					this.$.rowRepeat.render();
-					Polymer.dom(this.root).querySelectorAll('#cellRepeat').forEach(function(cr) {return cr.render();});
+					var cellRepeatList = this.shadowRoot.querySelector('#cellRepeat');
+					Array.prototype.forEach.call(cellRepeatList, function(cr) {return cr.render();});
 				},
 
 				_resetCell: function(cell){
@@ -679,12 +681,12 @@
 
 				_restructureData: function(){
 					this.debounce('restructure data', function(){
-						var rows = Polymer.dom(this.root).querySelectorAll('tbody tr');
+						var rows = this.shadowRoot.querySelectorAll('tbody tr');
 						// loop through the rows
 						for(var rowI=0; rowI<rows.length; rowI++){
 							var row = rows[rowI];
 							//find the data that belongs with the row
-							var rowData = this.get(['data',row.dataset.key]);
+							var rowData = this.get(['data',rowI]);
 							//prevent errors if row empty
 							if (!rowData) return;
 							var cells = Polymer.dom(row).querySelectorAll('.bound-cell');
@@ -698,12 +700,11 @@
 								var isEmpty = cell.hasAttribute('data-empty');
 								var isWrongRow = cell.getAttribute('data-row-key') !== row.dataset.key;
 								var isWrongColumn = cell.dataColumn !== cell.dataBoundColumn;
-
-								if(isEmpty || isWrongRow || isWrongColumn){
+								
+								if(cell){
 									cell.removeAttribute('data-empty');
 									var prop = cell.dataColumn.property;
 									var data = rowData[prop];
-
 									cell.setAttribute('data-row-key', row.dataset.key);
 									cell.dataBoundColumn = cell.dataColumn;
 
@@ -727,8 +728,9 @@
 										cell.instance = instance;
 										cell.instanceType = 'inline';
 										cell.querySelector('p').textContent = self._columns[index].header;
-										cell.querySelector('span').textContent = '';
-										cell.querySelector('span').appendChild(instance.root);
+										var spanTag = cell.querySelector('span');
+										spanTag.textContent = '';
+										spanTag.appendChild(instance.root);
 									}else{
 										if(cell.instance)
 											delete cell.instance;
@@ -748,21 +750,18 @@
 				_notifyPathOnInstances: function(change){
 					if(change.path === 'data'){
 						//not too happy about this 'hack', but it will have to do for the moment
-						var cells = Polymer.dom(this.root).querySelectorAll('.bound-cell');
-						if(cells.length > 0){
-							cells.forEach(function(cell) { 
+						var cells = this.shadowRoot.querySelectorAll('.bound-cell');
+							Array.prototype.forEach.call(cells, function(cell) { 
 								cell.setAttribute('data-row-key', '');
 							});
 							this._restructureData();
 						}
-					}
 					var path = change.path.split('.');
-					//console.log('_notifyPathOnInstances', path, change);
 					if(path.length >= 3){
 						var object = path.shift();
 						var rowKey = path.shift();
 
-						var row = Polymer.dom(this.root).querySelector('tbody tr[data-key=\''+rowKey+'\']');
+						var row = this.shadowRoot.querySelector('tbody tr[data-key=\''+rowKey+'\']');
 
 						if(!row){
 							console.error('critical failure');
@@ -801,9 +800,8 @@
 				 * If some or none are checked it will select all items
 				 */
 				toggleAll: function(){
-					var triggeredEvent = this.fire('toggle-all', {}, {cancelable: true});
-
-					if(!triggeredEvent.defaultPrevented){
+					var triggeredEvent = this._fireCustomEvent(this, "toggle-all", {});
+					if(triggeredEvent.defaultPrevented){
 						var allChecked = this._allChecked();
 						this.data.forEach(function(item){
 							if(allChecked){
@@ -828,12 +826,11 @@
 					if(this.multiSelection){
 						if(this.selectedKeys.indexOf(key) == -1){
 							this.push('selectedKeys', key);
-							if(notify) this.fire('selection-changed', {selected: [key]});
 						}
 					}else{
 						this.set('selectedKey', key);
-						if(notify) this.fire('selection-changed', {selected: [key]});
 					}
+					if(notify) this._fireCustomEvent(this, "selection-changed", {selected: [key]});
 				},
 
 				/**
@@ -849,11 +846,10 @@
 					if(this.multiSelection){
 						var i = this.selectedKeys.indexOf(key);
 						this.splice('selectedKeys', i, 1);
-						if(notify) this.fire('selection-changed', {deselected: [key]});
 					}else{
-						if(notify) this.fire('selection-changed', {deselected: [key]});
 						this.set('selectedKey', null);
 					}
+					if(notify) this._fireCustomEvent(this, "selection-changed", {deselected: [key]});
 				},
 				/**
 				 * Deselect all currently selected items. Ignore the `notify` parameter.
@@ -871,12 +867,12 @@
 				_allChecked: function(){
 					var allChecked = true;
 					this.data.forEach(function(item){
-						var key = this._dataKeyCollection.getKey(item);
+						var key = this._getKeyByItem(item);
 						if(this.selectedKeys.indexOf(key) == -1){
 							allChecked = false;
 						}
 					}.bind(this));
-					return allChecked && this.data.length > 0;
+					return allChecked && this.data.length > 0;	
 				},
 
 				_someChecked: function(){
@@ -896,94 +892,107 @@
 					if(ev.target.checked){
 						if(this.multiSelection){
 							this.push('selectedKeys', key);
-							this.fire('selection-changed', {selected: [key]});
+							this._fireCustomEvent(this, "selection-changed", {selected: [key]});
 						}else{
 							if(this.selectedKey){
-								this.fire('selection-changed', {selected: [key], deselected: [this.selectedKey]});
+								this._fireCustomEvent(this, "selection-changed", {selected: [key], deselected: [this.selectedKey]});
 							}else{
-								this.fire('selection-changed', {selected: [key]});
+								this._fireCustomEvent(this, "selection-changed", {selected: [key]});
 							}
 							this.selectedKey = key;
 						}
 					}else{
 						if(this.multiSelection){
 							this.splice('selectedKeys', this.selectedKeys.indexOf(key), 1);
-							this.fire('selection-changed', {deselected: [key]});
 						}else{
-							this.fire('selection-changed', {deselected: [key]});
 							this.selectedKey = null;
 						}
+						this._fireCustomEvent(this, "selection-changed", {deselected: [key]});
 					}
 				},
 
 				_toggleSelection: function(key){
 					if(this.selectable){
-						/*if(id == '__new__'){
-							return false;
-						}*/
 						if(this.multiSelection){
 							var checked = this.selectedKeys.indexOf(key) > -1;
 							if(checked){
 								this.splice('selectedKeys', this.selectedKeys.indexOf(key), 1);
-								this.fire('selection-changed', {deselected: [key]});
+								this._fireCustomEvent(this, "selection-changed", {deselected: [key]});
 							}else{
 								this.push('selectedKeys', key);
-								this.fire('selection-changed', {selected: [key]});
+								this._fireCustomEvent(this, "selection-changed", {selected: [key]});
 							}
 						}else{
 							var checked = this.selectedKey == key;
 							if(checked){
 								this.selectedKey = null;
-								this.fire('selection-changed', {deselected: [key]});
+								this._fireCustomEvent(this, "selection-changed", {deselected: [key]});
 							}else{
 								if(this.selectedKey){
-									this.fire('selection-changed', {selected: [key], deselected: [this.selectedKey]});
+									this._fireCustomEvent(this, "selection-changed", {selected: [key], deselected: [this.selectedKey]});
 								}else{
-									this.fire('selection-changed', {selected: [key]});
+									this._fireCustomEvent(this, "selection-changed", {selected: [key]});
 								}
 								this.selectedKey = key;
 							}
 						}
 					}
 				},
-
+				/**
+				 * Wrapper for platform custom event emitter
+				 */
+				_fireCustomEvent: function(context, eventName, eventBody, eventSettings) {
+					if (!eventBody) {
+						eventBody = {};
+					}
+					if (!eventSettings) {
+						eventSettings = {
+							bubbles: false,
+							composed: false
+						}
+					}
+					var newEvent = context.dispatchEvent(new CustomEvent(eventName, {detail: eventBody, bubbles: eventSettings.bubbles, composed: eventSettings.composed} ));
+					return newEvent;
+				},
 				/**
 				 * Sort the specified column, where `column` is a reference to the actual `<paper-datatable-column>`
 				 * element.
 				 */
 				sort: function(column){
 					this.async(function(){
-						
-						var triggeredEvent = this.fire('sort', {sort: {
-							property: column.property,
-							direction: column.sortDirection
-						}, column: column}, {cancelable: true});
+						var eventBody = {
+							sort: {
+								property: column.property,
+								direction: column.sortDirection
+							}, column: column
+						}
+						var triggeredEvent = this._fireCustomEvent(this, "sort", eventBody); 
 
 						this.set('_currentlySortedColumn', column);
 
 						this._applySortedIndicatorsToDOM();
-
-						if(triggeredEvent.defaultPrevented){
+						if(triggeredEvent){
 							this._internalSortEnabled = false;
-						}else{
+						} else {
 							this._internalSortEnabled = true;
-							this._internalSort(column);
 						}
+						this._internalSort(column);
 					});
 				},
 
 				_applySortedIndicatorsToDOM: function(){
-					var previouslySortedTh = Polymer.dom(this.root).querySelector("th[data-sorted]");
-					if(previouslySortedTh)
+					var previouslySortedTh = this.shadowRoot.querySelector("th[data-sorted]");
+					if(previouslySortedTh) {
 						previouslySortedTh.removeAttribute('data-sorted');
+					}
 
-					var column = this.get('_currentlySortedColumn');
+					var column = this._currentlySortedColumn;
 
 					if(column){
-						var th = Polymer.dom(this.root).querySelectorAll("th").find(function(el){
+						var thsList = this.shadowRoot.querySelectorAll("th");
+						var th = Array.prototype.find.call(thsList, function(el){
 							return el.dataColumn === column;
 						});
-
 						//column might have been removed or made inactive
 						if(th){
 							th.setAttribute('data-sorted', true);
@@ -993,7 +1002,7 @@
 				},
 
 				_internalSort: function(column){
-					if(this._internalSortEnabled) {
+					if(this._internalSortEnabled && this._rowKeys) {
 						this._rowKeys.sort(function(a, b){
 							if(column.sortDirection == 'desc'){
 								var c = a;
@@ -1004,24 +1013,21 @@
 							var valB = this._getByKey(b)[column.property];
 							return column._sort(valA, valB);
 						}.bind(this));
-						this.set("_rowKeys", JSON.parse(JSON.stringify(this._rowKeys)));
+						this.set("_rowKeys", this._rowKeys);
 					}
 				},
 
 				_handleSort: function(ev){
-
 					var column = ev.model.column;
 					if(column.sortable){
 						column.set('sortDirection', column.sortDirection == 'asc' ? 'desc' : 'asc');
 						column.set('sorted', true);
 					}
-
 				},
 
 				_cellTapped: function(ev){
 
-					var PolymerEvent = Polymer.dom(ev);
-					var path = PolymerEvent.path;
+					var path = ev.composedPath();
 					var cell;
 					for(var i=0;i<path.length;i++){
 						if(path[i].nodeName.toLowerCase() == 'td'){
@@ -1036,16 +1042,16 @@
 					// clicks in the checkbox cell do not have a set column
 					if(ev.model.column){
 						var item = this._getByKey(rowModel.rowKey);
-						ev.model.column.fire('cell-tap', {key:rowModel.rowKey, item:item, target:PolymerEvent.path[0], originalEvent: ev}, {bubbles: false});
-						this.fire('cell-tap', {column: ev.model.column, key:rowModel.rowKey, item:item, target:PolymerEvent.path[0], originalEvent: ev}, {});
-
+						var eventBody = {column: ev.model.column, key:rowModel.rowKey, item:item, target: ev.target, originalEvent: ev}
+						this._fireCustomEvent(ev.model.column, "cell-tap", eventBody, { bubbles: true, composed: true });
+						
 						if(ev.model.column.dialog){
 							this._initializeInDialog(cell, ev.model.column, item, rowModel.rowKey);
 							var dialogInitialized = true;
 						}
 					}
 
-					var triggeredEvent = this.fire('row-tap', {key: rowModel.rowKey, item: this._getByKey(rowModel.rowKey), originalEvent: ev}, {cancelable: true});
+					var triggeredEvent = this._fireCustomEvent(this, "row-tap", {key: rowModel.rowKey, item: this._getByKey(rowModel.rowKey), originalEvent: ev}, { bubbles: true, composed: true });
 					if(!triggeredEvent.defaultPrevented && !dialogInitialized){
 						if(path[0].nodeName.toLowerCase() == 'td' || (ev.model.column && !ev.model.column.editable)){
 							this._toggleSelection(rowModel.rowKey);
@@ -1072,7 +1078,6 @@
 					Polymer.dom(this.$.dialog).innerHTML = '';
 					Polymer.dom(this.$.dialog).appendChild(instance.root);
 					this.$.dialog.findFocus();
-					//console.log(cell.getBoundingClientRect());
 				},
 
 				_getKeyByItem: function(item){
@@ -1086,7 +1091,7 @@
 					if(typeof key === 'object'){
 						return key.map(this._getByKey.bind(this));
 					}
-					return this.get(['data', key]);
+					return this._dataKeyCollection.getItem(key);
 				},
 
 				_getSelectedItems: function(){
@@ -1095,9 +1100,6 @@
 
 				_getIndexById: function(id){
 					return console.warn('This function has been deprecated and removed.');
-					/*return this.data.findIndex(function(item){
-						return item[this.idProperty] == id;
-					}.bind(this));*/
 				},
 
 				_numberOfColumnsPlusOne: function(){
@@ -1122,18 +1124,18 @@
 				},
 
 				_linkSelectedItems: function(){
-					var selectedItemsCollection = Polymer.Collection.get(this.selectedItems);
-					selectedItemsCollection.getKeys().forEach(function(selectedItemKey, i){
-						this.linkPaths('selectedItems.'+selectedItemKey, 'data.'+this.selectedKeys[i]);
-					}.bind(this));
+					var selectedItemsCollection = new CollectionHelpers(this.selectedItems);
+						selectedItemsCollection.getKeys().forEach(function(selectedItemKey, i){
+							this.linkPaths('selectedItems.'+selectedItemKey, 'data.'+this.selectedKeys[i]);
+						}.bind(this));
 				},
 
 				_triggerDialogResize: function(){
 					this.$.dialog.setLocationRelativeTo();
 				},
-
 				_noItemsVisible: function(){
-					return this._rowKeys.length === 0;
+					if (this._rowKeys) return this._rowKeys.length === 0;
+					else return true;
 				},
 
 				_isEqual: function(a, b){
@@ -1147,15 +1149,15 @@
 				_setPartialSelection: function(){
 					this.set('_partialSelection', this._someChecked());
 				},
-				/**1
+				/**
 				 * Scroll listener from IronScrollTargetBehavior with logic
 				 */
 				_scrollHandler: function (e) {
 					if (!this.mobileView && this.headerFixed) {
-						var tableHead = Polymer.dom(this.root).querySelector('thead');
+						var tableHead = this.shadowRoot.querySelector('thead');
 						if (this._scrollTop > this._theadDistanseToTop && !tableHead.classList.contains("fixedToTop")) {
 							/*Get first table row*/
-							var firstRow = Polymer.dom(this.root).querySelector('tbody tr');	
+							var firstRow = this.shadowRoot.querySelector('tbody tr');	
 							var firstRowCells = Polymer.dom(firstRow).querySelectorAll('.bound-cell');
 							if (firstRowCells.length === 0) return;
 							var headerWidth = getComputedStyle(tableHead).width;
@@ -1184,7 +1186,7 @@
 				 */
 				_resizeHandler: function() {
 					if (this.headerFixed && !this._theadDistanseToTop) {
-						var thead = Polymer.dom(this.root).querySelector('thead');
+						var thead = this.shadowRoot.querySelector('thead');
 						var parentNodeName = this.parentNode.nodeName;
 						if (parentNodeName.toLowerCase() === 'paper-datatable-card' && this.parentNode.headerFixed) {
 							var header = Polymer.dom(this.parentNode.root).querySelector('#topBlock');
@@ -1206,7 +1208,6 @@
 					var selectable = this.selectable ? 56 : 0;
 					if(this.resizeBehavior == 'dynamic-columns'){
 						var allColumns = this.queryAllEffectiveChildren('paper-datatable-column');
-
 						if(allColumns.length > 0) {
 							var maxWidth = this.$.container.clientWidth;
 
@@ -1239,8 +1240,8 @@
 				_renderTooltipsIfOverflow: function(){
 					if(this.resizeBehavior == 'fixed'){
 						if(this._columns.length > 0){
-							var ths = Polymer.dom(this.root).querySelectorAll('th');
-							ths.forEach(function(th) {
+							var ths = this.shadowRoot.querySelectorAll('th');
+							Array.prototype.forEach.call(ths, function(th) {
 								if(th.dataColumn){
 									var column = th.dataColumn;
 									if(th.scrollWidth > th.offsetWidth){
@@ -1255,7 +1256,7 @@
 					}
 				},
 				_updateHeaderColumn: function(event){
- 					var column = Polymer.dom(event).localTarget;
+ 					var column = event.target;
  					this.notifyPath('_columns.'+column.index+'.header', this._columns[column.index].header);
  				}
 			});

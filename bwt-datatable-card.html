@@ -9,19 +9,20 @@
 <link rel="import" href="../paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../paper-progress/paper-progress.html">
 <link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../paper-styles/element-styles/paper-material-styles.html">
 <link rel="import" href="../iron-resizable-behavior/iron-resizable-behavior.html">
 <link rel="import" href="../iron-scroll-target-behavior/iron-scroll-target-behavior.html">
 
 <dom-module id="paper-datatable-card">
 	<template>
 		<custom-style>
-			<style is="custom-style" include="iron-flex iron-flex-alignment iron-positioning"></style>
+			<style is="custom-style" include="iron-flex iron-flex-alignment iron-positioning paper-material-styles"></style>
 			<style is="custom-style">
 				:host {
 					display: block;
 					@apply --paper-font-common-base;
 				}
-				paper-material{
+				.paper-material{
 					border-radius: 2px;
 					background: white;
 					@apply --paper-datatable-card;
@@ -96,7 +97,7 @@
 					--paper-dropdown-menu-icon: {
 						color: var(--paper-datatable-navigation-bar-text-color, rgba(0,0,0,.54));
 					};
-					
+
 				}
 				.fixedToTop {
 					background: #fff;
@@ -107,7 +108,8 @@
 				}
 			</style>
 		</custom-style>
-		<paper-material elevation="1">
+
+		<div class="paper-material" elevation="1">
 			<div class="horizontal center layout" id="topBlock">
 				<div class="flex header">
 					<span>[[header]]</span>
@@ -117,7 +119,7 @@
 				</div>
 				<div id="selectionToolbar" class="horizontal center layout fit" data-visible$="[[_selectedToolbarVisible]]">
 					<div class="flex selectionHeader">
-						<span>[[_numberselectedIds]]</span> item selected
+						<span>[[_numberOfSelectedIds]]</span> item selected
 					</div>
 					<div class="toolbar" data-visible$="[[_singleSelectToolbarVisible]]">
 						<slot name="toolbar-select-single"></slot>
@@ -138,20 +140,20 @@
 				<span>Rows per page:</span>
 				<paper-dropdown-menu no-label-float style="width: 68px;">
 					<paper-listbox slot="dropdown-content" selected="{{pageSize}}" attr-for-selected="value">
-						<template is="dom-repeat" items="[[pageSizeOptions]]">
-							<paper-item value="[[item]]">[[item]]</paper-item>
+						<template is="dom-repeat" items="[[pageSizeOptions]]" as="size">
+							<paper-item value$="[[size]]">[[size]]</paper-item>
 						</template>
 					</paper-listbox>
 				</paper-dropdown-menu>
 				<span>
-					<span>[[_getRangeStart(page, pageSize)]]</span>-<span>[[_getRangeEnd(page, pageSize, numberOfItems)]]</span> of&nbsp;<span>[[numberOfItems]]</span>
+					<span>[[_getRangeStart(page, pageSize)]]</span>-<span>[[_getRangeEnd(page, pageSize, _numberOfItems)]]</span> of&nbsp;<span>[[_numberOfItems]]</span>
 				</span>
 				<paper-icon-button icon="datatable:first-page" on-tap="firstPage" disabled="[[_prevPageDisabled(page)]]"></paper-icon-button>
 				<paper-icon-button icon="datatable:prev-page" on-tap="prevPage" disabled="[[_prevPageDisabled(page)]]"></paper-icon-button>
-				<paper-icon-button icon="datatable:next-page" on-tap="nextPage" disabled="[[_nextPageDisabled(page, pageSize, numberOfItems)]]"></paper-icon-button>
-				<paper-icon-button icon="datatable:last-page" on-tap="lastPage" disabled="[[_nextPageDisabled(page, pageSize, numberOfItems)]]"></paper-icon-button>
+				<paper-icon-button icon="datatable:next-page" on-tap="nextPage" disabled="[[_nextPageDisabled(page, pageSize, _numberOfItems)]]"></paper-icon-button>
+				<paper-icon-button icon="datatable:last-page" on-tap="lastPage" disabled="[[_nextPageDisabled(page, pageSize, _numberOfItems)]]"></paper-icon-button>
 			</div>
-		</paper-material>
+		</div>
 	</template>
 
 	<script>
@@ -290,7 +292,8 @@
 					_selectedToolbarVisible: Boolean,
 					_singleSelectToolbarVisible: Boolean,
 					_multiSelectToolbarVisible: Boolean,
-					_numberselectedIds: Number
+					_numberOfSelectedIds: Number,
+					_numberOfItems: Number
 				},
 				ready: function(){
 					this._datatable = Polymer.dom(this).querySelector("paper-datatable");
@@ -322,7 +325,7 @@
 				_scrollHandler: function () {
 					if (this.headerFixed) {
 						var paperDatatable = Polymer.dom(this).querySelector("paper-datatable");
-						var header = Polymer.dom(this.root).querySelector('#topBlock');
+						var header = this.shadowRoot.querySelector('#topBlock');
 						var headerStyles = getComputedStyle(header);
 						if (this._scrollTop > this._headerDistanseToTop && !header.classList.contains("fixedToTop")) {
 							header.style.width = headerStyles.width;
@@ -341,7 +344,7 @@
 				 */
 				_resizeHandler: function() {
 					if (this.headerFixed && !this._headerDistanseToTop) {
-						var header = Polymer.dom(this.root).querySelector('#topBlock');
+						var header = this.shadowRoot.querySelector('#topBlock');
 						this._headerDistanseToTop = header.getBoundingClientRect().top;
 					};
 				},
@@ -409,38 +412,36 @@
 						this.firstPage();
 						this._sortProperty = ev.detail.sort.property;
 						this._sortDirection = ev.detail.sort.direction;
-
-						//this.retrieveVisibleData();
 					}
+				},
+
+				processItems: function(items){
+
+					this._datatable.deselectAll(false);
+					this._datatable.splice('data', 0, this._datatable.data.length);
+
+					var args = ['data'].concat(items);
+					this._datatable.push.apply(this._datatable, args);
+					this._setSelectedKeysOnDatatable();
+					this._datatable.set('progress', false);
+
+					this._disableSave = false;
+
+					this.async(function(){
+						items.forEach(function(item){
+							this._cache.set(item[this.idProperty], item);
+						}.bind(this));
+					});
+
 				},
 				/**
 				 * Call this function to trigger reloading of the current page
 				 */
 				retrieveVisibleData: function(){
 					var self = this;
+					if (!this.dataSource) return;
 					this.debounce("visibleData", function(){
 						this._disableSave = true;
-
-						var processItems = function(items){
-
-							this._datatable.deselectAll(false);
-							this._datatable.splice('data', 0, this._datatable.data.length);
-
-							var args = ['data'].concat(items);
-							this._datatable.push.apply(this._datatable,args);
-							this._setSelectedKeysOnDatatable();
-							this._datatable.set('progress', false);
-
-							this._disableSave = false;
-
-							// no rush, so let's do it next tick
-							this.async(function(){
-								items.forEach(function(item){
-									this._cache.set(item[this.idProperty], item);
-								}.bind(this));
-							});
-
-						}.bind(this);
 
 						var queryArgs = [{
 							property: this._sortProperty,
@@ -448,7 +449,7 @@
 						}, this.page, this.pageSize];
 
 						this._datatable.set('progress', true);
-
+						
 						if('queryForIds' in this.dataSource){
 							this.dataSource.queryForIds.apply(this.dataSource, queryArgs).then(function(ids){
 								var items = [];
@@ -459,7 +460,7 @@
 										var sortedItems = ids.map(function(id) {
 											return items.find(function(item) { return item[self.idProperty] == id});
 										});
-										processItems(sortedItems);
+										this.processItems(sortedItems);
 									}
 								}.bind(this);
 
@@ -484,14 +485,11 @@
 								}else{
 									done();
 								}
-
-
-
 							}.bind(this));
 
 						}else{
 							this.dataSource.get.apply(this.dataSource, queryArgs).then(function(items){
-								processItems(items);
+								this.processItems(items);
 							});
 						}
 					}, 0);
@@ -501,7 +499,7 @@
 					return (this.page-1)*this.pageSize;
 				},
 				_getRangeEnd: function(){
-					return Math.min((this.page)*this.pageSize, this.numberOfItems);
+					return Math.min((this.page)*this.pageSize, this._numberOfItems);
 				},
 				/**
 				 * Navigate to the next page
@@ -525,19 +523,19 @@
 				 * Navigate to the last page
 				 */
 				lastPage: function(){
-					this.set("page", Math.ceil(this.numberOfItems / this.pageSize));
+					this.set("page", Math.ceil(this._numberOfItems / this.pageSize));
 				},
 				_prevPageDisabled: function(){
 					return this.page == 1;
 				},
 				_nextPageDisabled: function(){
-					return this.page * this.pageSize >= this.numberOfItems;
+					return this.page * this.pageSize >= this._numberOfItems;
 				},
 				_setSelectedToolbarVisible: function(){
 					this._selectedToolbarVisible = this.selectedIds.length > 0;
 					this._singleSelectToolbarVisible = this.selectedIds.length == 1;
 					this._multiSelectToolbarVisible = this.selectedIds.length > 1;
-					this._numberselectedIds = this.selectedIds.length;
+					this._numberOfSelectedIds = this.selectedIds.length;
 					this._datatable._partialSelection = this.selectedIds.length > 0;
 				},
 				_setSelectedIds: function(ev){
@@ -570,25 +568,23 @@
 					}.bind(this));
 				},
 				_setNumberOfItems: function(){
-					this.set('numberOfItems', this.dataSource.length);
+					this.set('_numberOfItems', this.dataSource.length);
 				},
 				_toggleAll: function(ev){
-					if(this.dataSource){
-						if('queryForIds' in  this.dataSource){
-							if(this.selectedIds.length === this.dataSource.length){
-								this.deselectAll();
-							}else{
-								this.deselectAll();
-								this._datatable.set('progress', true);
-								this.dataSource.queryForIds(undefined, 1, this.dataSource.length).then(function(ids){
-									this._datatable.set('progress', undefined);
-									this.push.apply(this, ['selectedIds'].concat(ids));
-									this._setSelectedKeysOnDatatable();
-									this._setSelectedToolbarVisible();
-								}.bind(this));
-							}
-							ev.preventDefault();
+					if(this.dataSource && 'queryForIds' in this.dataSource){
+						if(this.selectedIds.length === this.dataSource.length){
+							this.deselectAll();
+						}else{
+							this.deselectAll();
+							this._datatable.set('progress', true);
+							this.dataSource.queryForIds(undefined, 1, this.dataSource.length).then(function(ids){
+								this._datatable.set('progress', undefined);
+								this.push.apply(this, ['selectedIds'].concat(ids));
+								this._setSelectedKeysOnDatatable();
+								this._setSelectedToolbarVisible();
+							}.bind(this));
 						}
+						ev.preventDefault();
 					}
 				},
 				/**
