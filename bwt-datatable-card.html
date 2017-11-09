@@ -496,7 +496,7 @@
 						}else{
 							this.dataSource.get.apply(this.dataSource, queryArgs).then(function(items){
 								this.processItems(items);
-							});
+							}.bind(this));
 						}
 					}, 0);
 
