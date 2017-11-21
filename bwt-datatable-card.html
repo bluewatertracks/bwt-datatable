@@ -352,6 +352,8 @@
 				_pageSizeChanged: function() {
 					if (this.page > 1) {
 						this.firstPage();
+					} else {
+						this.retrieveVisibleData();
 					}
 				},
 				_createCache: function(){
