@@ -504,7 +504,7 @@
 
 				},
 				_getRangeStart: function(){
-					return (this.page-1)*this.pageSize;
+					return (this.page-1)*this.pageSize+1;						
 				},
 				_getRangeEnd: function(){
 					return Math.min((this.page)*this.pageSize, this._numberOfItems);
