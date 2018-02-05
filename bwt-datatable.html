@@ -705,7 +705,15 @@
 								if(cell){
 									cell.removeAttribute('data-empty');
 									var prop = cell.dataColumn.property;
-									var data = rowData[prop];
+									
+									var subs = prop.split(".");
+									if (subs.length == 1) {
+										var data = rowData[prop];
+									} else {
+										var data = rowData;
+										subs.forEach(p => data = data[p]);
+									}
+
 									cell.setAttribute('data-row-key', row.dataset.key);
 									cell.dataBoundColumn = cell.dataColumn;
 
