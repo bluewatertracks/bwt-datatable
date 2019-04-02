@@ -1,9 +1,9 @@
-<link rel="import" href="../polymer/polymer.html">
-<link rel="import" href="../font-roboto/roboto.html">
-<link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
+import '../@polymer/polymer/polymer-legacy.js';
+import '../@polymer/font-roboto/roboto.js';
+import '../@polymer/iron-flex-layout/iron-flex-layout-classes.js';
+const $_documentContainer = document.createElement('template');
 
-
-<dom-module id="paper-datatable-styles">
+$_documentContainer.innerHTML = `<dom-module id="paper-datatable-styles">
 	<template>
 		<custom-style>
 			<style is="custom-style" include="iron-flex iron-flex-alignment iron-positioning"></style>
@@ -46,4 +46,6 @@
 			</style>
 		</custom-style>
 	</template>
-</dom-module>
+</dom-module>`;
+
+document.head.appendChild($_documentContainer.content);

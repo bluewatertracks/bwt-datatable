@@ -1,4 +1,4 @@
-class CollectionHelpers {
+export class CollectionHelpers {
     constructor(data) {
         this.store = data.slice();
         this._initMap();

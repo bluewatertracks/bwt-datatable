@@ -1,8 +1,15 @@
+[![Published on NPM](https://img.shields.io/npm/v/bwt-datatable.svg)](https://www.npmjs.com/package/bwt-datatable)
 [![Published on Vaadin  Directory](https://img.shields.io/badge/Vaadin%20Directory-published-00b4f0.svg)](https://vaadin.com/directory/component/bluewatertracksbwt-datatable)
-[![Stars on vaadin.com/directory](https://img.shields.io/vaadin-directory/star/bluewatertracksbwt-datatable.svg)](https://vaadin.com/directory/component/bluewatertracksbwt-datatable)
 [![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/bluewatertracks/bwt-datatable)
 
 # bwt-datatable
+
+### News! New stable release 3.0.0
+This package was updated to ES6 syntax and now support Polymer 3!
+
+The new version `3.0.0` works only with Polymer 3.0 or above. If you want to use it with Polymer 2.* please use previous version `2.2.0`.
+
+You can find new example how to use it in the file `example/your-datatable-implementation.js`.
 
 ### About
 We greatly appreciated the work of [David Mulder's paper-datatable](https://github.com/David-Mulder/paper-datatable) but since it hasn't been active for a while and we at Blue Water Tracks really wanted to keep pushing the work done so far, we decided to inherit the project and let it evolve but combining the pull requests on the project along with a couple of fixes and features that we came up with. Since many people already use the `paper-datatable` component, we created this component to make sure that it is compatible with the `paper-datatable` component. You can easily use this element only changing the path to `paper-datatable` import element like below. 
