@@ -622,8 +622,8 @@ class PaperDatatable extends mixinBehaviors([IronScrollTargetBehavior, IronResiz
 
 	_setRowKeys() {
 		var rowKeys = [];
-		this._dataKeyCollection = new CollectionHelpers(this.data);
-		this.data.forEach(function (row) {
+		this._dataKeyCollection = new CollectionHelpers(this.data || []);
+		(this.data || []).forEach(function (row) {
 			var key = this._getKeyByItem(row);
 			if ('filter' in this) {
 				if (this.filter(row, key, this.data)) {
